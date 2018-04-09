@@ -1,0 +1,112 @@
+.App {
+  text-align: left;
+  display: flex;
+  justify-content: center;
+}
+
+.widget-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;  
+  margin-top: 20vh;
+  box-shadow: 0px 1px 1px #54545495;
+  min-height: 10vw;
+  min-width: 50vw;
+  max-width: 75vw;
+}
+
+.widget-api-call-display {
+  justify-content: left;
+  width: 100%;
+}
+.widget-api-call-display h1 {
+  padding: 5px 0px 5px 20px;
+  font-size: 30px;
+  color: #545454;
+}
+.widget-api-call-display h3 {
+  padding: 5px 0px 5px 30px;
+  font-size: 15px;
+  color: #F48D46;
+}
+
+.reviews-box {  
+  overflow-y: scroll;
+  position: relative;
+  max-height: 20vh;
+  border-top: 1px solid #54545430;
+  padding-top: 20px;
+  text-align: left;
+  margin: 10px 30px 10px 30px;
+}
+.reviews-box-elements {
+  /* padding-bottom: 5px; */
+}
+
+.time {
+  font-size: 10px;
+  color: #898787;
+}
+
+.message-bottom {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.review-rating {
+  font-size: 12px;
+}
+
+.stars {
+  height: 15px;
+  width: 15px;
+  position: relative;
+  transform: translateY(2px);
+}
+
+.widget-footer {  
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 40px;
+  max-height: 50px;
+  background: #4FCBC5;
+  color: #ffffff;
+}
+.opiniion-logo {
+  padding-bottom: 8px;
+}
+.opiniion-logo img {
+  margin-right: 20px; 
+  padding: 1px;
+  transform: translateY(7px);
+}
+
+.opiniion-logo img {
+
+  height: 27px;
+  width: 100px;
+}
+
+@media(min-width: 1000px) {
+  .review-rating {
+    font-size: 16px;
+  }
+  .stars {
+    height: 20px;
+    width: 20px;
+    position: relative;
+    transform: translateY(3px);
+  }
+  .time {
+    font-size: 14px;
+  }
+  .message-bottom {
+    font-size: 15px;
+    padding-bottom: 10px;
+    line-height: 1.5;
+  }
+  h3 {
+    font-size: 20px;
+  }
+}
