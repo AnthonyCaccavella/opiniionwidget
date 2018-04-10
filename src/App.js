@@ -14,10 +14,10 @@ class App extends Component {
       title: '',
       rating: '',
       reviews: []
-
     })
-
   }
+
+// On component loading this will retrieve the async api call and return the promise to be able to display below. Also ensures that there aren't any low reviews that would reflect poorly on the business.
 
   componentDidMount() {
     getReviews().then(response => {
@@ -28,12 +28,12 @@ class App extends Component {
           return el.rating >= 4;
         })
       })
-      console.log("Hey!", this.state.reviews, this.state.rating)
+      console.log("Successfully retreived data:", this.state.reviews, this.state.rating)
     })
   }
 
   render() {
-      
+
     return (
       <div className="App">
         <div className="widget-box">
@@ -41,6 +41,7 @@ class App extends Component {
             <h1>{this.state.title}</h1>
             <h3 className="rating">{this.state.rating} <span><img src={stars} alt="stars" className="stars" /></span></h3>
             <div className="reviews-box">
+            {/* Turnary statement determining if there were any reviews to display that are at least 4 stars, and if not displays a link to leave a review. Otherwise it displays the reviews listed in format similar to the Google page. */}
               {!this.state.reviews.length ? 
               <div>
                 Be the first to leave a featured review! <a href={"http://www.google.com/search?q="+this.state.title}>Click Here</a>
