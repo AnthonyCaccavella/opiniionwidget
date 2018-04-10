@@ -6,7 +6,7 @@ require('dotenv').config()
 
  function getReviews() {
             
-            return axios.get('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + process.env.REAgit CT_APP_PLACE_ID + '&language=english&key=' + process.env.REACT_APP_SECRET_KEY)
+            return axios.get('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + REACT_APP_PLACE_ID + '&language=english&key=' + REACT_APP_SECRET_KEY)
             .then((response) => {
                 
                 const businsessName = response.data.result.name;
