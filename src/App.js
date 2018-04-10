@@ -11,13 +11,13 @@ class App extends Component {
   constructor() {
     super();
     this.state = ({
-      title: '',
+      title: document.title,
       rating: '',
       reviews: []
     })
   }
 
-// On component loading this will retrieve the async api call and return the promise to be able to display below. Also ensures that there aren't any low reviews that would reflect poorly on the business.
+// On component loading this will retrieve the async api call and return the promise to be able to display below. Also ensures that there aren't any low reviews that would reflect poorly on the business. Title is the first thing being pulled off the api call, while rating is the last. Therefor, shifting and popping was the easiest way to ensure that those two values were populated. If they weren't, then it's more likely that there will be no ratings altogether, no stats of any kind.
 
   componentDidMount() {
     getReviews().then(response => {
@@ -39,7 +39,8 @@ class App extends Component {
         <div className="widget-box">
             <div className="widget-api-call-display">
             <h1>{this.state.title}</h1>
-            <h3 className="rating">{this.state.rating} <span><img src={stars} alt="stars" className="stars" /></span></h3>
+            {!this.state.rating ? <h3>&nbsp;</h3>  :
+            <h3 className="rating">{this.state.rating} <span><img src={stars} alt="stars" className="stars" /></span></h3>}
             <div className="reviews-box">
             {/* Turnary statement determining if there were any reviews to display that are at least 4 stars, and if not displays a link to leave a review. Otherwise it displays the reviews listed in format similar to the Google page. */}
               {!this.state.reviews.length ? 
