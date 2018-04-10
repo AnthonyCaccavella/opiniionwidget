@@ -74,3 +74,7 @@ class App extends Component {
 }
 
 export default App;
+
+
+// The embed script is going to look something like this:
+// <script src="app.opiniionwidget.com/test" REACT_APP_PLACE_ID="placeidgoeshere" REACT_APP_SECRET_KEY="apikeygoeshere"></script>
