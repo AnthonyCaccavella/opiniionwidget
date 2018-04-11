@@ -1,7 +1,6 @@
 {
   "name": "opiniionreactwidget",
   "main": "index.js",
-  "proxy": "https://localhost:3004",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

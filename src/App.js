@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import logo from './opiniionlogo.png';
-import getReviews from './reviews.js';
+// import getReviews from './reviews.js';
 import stars from './3D-Gold-Star-Transparent-Background.png';
-
-
-require('dotenv').config()
+import axios from 'axios';
 
 class App extends Component {
   constructor() {
@@ -13,14 +11,41 @@ class App extends Component {
     this.state = ({
       title: document.title,
       rating: '',
-      reviews: []
+      reviews: [],
+      REACT_APP_PLACE_ID: '',
+      REACT_APP_SECRET_KEY: ''
     })
   }
 
 // On component loading this will retrieve the async api call and return the promise to be able to display below. Also ensures that there aren't any low reviews that would reflect poorly on the business. Title is the first thing being pulled off the api call, while rating is the last. Therefor, shifting and popping was the easiest way to ensure that those two values were populated. If they weren't, then it's more likely that there will be no ratings altogether, no stats of any kind.
 
+getReviews() {
+            
+  return axios.get('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + this.state.REACT_APP_PLACE_ID + '&language=english&key=' + this.state.REACT_APP_SECRET_KEY)
+  .then((response) => {
+      
+      const businsessName = response.data.result.name;
+      const reviewRating = response.data.result.rating;
+      const reviewArr = [];
+      // const overAllRating = response.result.rating;
+      for(let i = 0; i< response.data.result.reviews.length; i++) {
+          let reviewObj = {};
+          let re = response.data.result.reviews[i];
+          reviewObj.author = re.author_name;
+          reviewObj.photo = re.profile_photo_url;
+          reviewObj.rating = re.rating;
+          reviewObj.time = re.relative_time_description;
+          reviewObj.message = re.text;
+          reviewArr.push(reviewObj);
+      }
+      reviewArr.unshift(businsessName);                      
+      reviewArr.push(reviewRating);
+      return reviewArr; 
+  })
+}
+
   componentDidMount() {
-    getReviews().then(response => {
+    this.getReviews().then(response => {
       this.setState({
         title: response.shift(),
         rating: response.pop(),
