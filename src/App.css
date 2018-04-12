@@ -51,6 +51,9 @@
   font-size: 10px;
   color: #898787;
 }
+.no-reviews-box {
+  width: 75vw;
+}
 
 .message-bottom {
   font-size: 12px;
