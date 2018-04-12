@@ -12,8 +12,8 @@ class App extends Component {
       title: document.title,
       rating: '',
       reviews: [],
-      REACT_APP_PLACE_ID: '',
-      REACT_APP_SECRET_KEY: ''
+      react_app_place_id: '',
+      react_app_secret_key: ''
     })
   }
 
@@ -21,7 +21,7 @@ class App extends Component {
 
 getReviews() {
             
-  return axios.get('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + this.props.REACT_APP_PLACE_ID + '&language=english&key=' + this.props.REACT_APP_SECRET_KEY)
+  return axios.get('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + this.props.react_app_place_id + '&language=english&key=' + this.props.react_app_secret_key)
   .then((response) => {
       
       const businsessName = response.data.result.name;
