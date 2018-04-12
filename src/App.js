@@ -12,6 +12,8 @@ class App extends Component {
       title: document.title,
       rating: '',
       reviews: [],
+      react_app_place_id:"ChIJS8InlmeHUocRukhhOaYaSoQ",
+      react_app_secret_key:"AIzaSyD1ob8HgASXwxgvByDemHZsXUwotUlayl4"
     })
   }
 
