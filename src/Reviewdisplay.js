@@ -67,7 +67,7 @@ export default class ReviewDisplay extends Component {
               {/* Turnary statement determining if there were any reviews to display that are at least 4 stars, and if not displays a link to leave a review. Otherwise it displays the reviews listed in format similar to the Google page. */}
                 {!this.state.reviews.length ? 
                 <div>
-                  Be the first to leave a featured review! <a href={"https://search.google.com/local/writereview?placeid="+this.props.match.params.id}>Click Here</a>
+                  Be the first to leave a featured review! <a href={"https://search.google.com/local/writereview?placeid="+this.props.match.params.id} target="blank">Click Here</a>
                 </div> 
                   : this.state.reviews.map((e, i) => (
                   <div key={i}>
