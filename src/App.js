@@ -12,8 +12,6 @@ class App extends Component {
       title: document.title,
       rating: '',
       reviews: [],
-      react_app_place_id: '',
-      react_app_secret_key: ''
     })
   }
 
@@ -21,7 +19,7 @@ class App extends Component {
 
 getReviews() {
             
-  return axios.get('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + this.props.react_app_place_id + '&language=english&key=' + this.props.react_app_secret_key)
+  return axios.get('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + this.state.react_app_place_id + '&language=english&key=' + this.state.react_app_secret_key)
   .then((response) => {
       
       const businsessName = response.data.result.name;
@@ -104,4 +102,4 @@ export default App;
 // The embed script is going to look something like this:
 // <script src="app.opiniionwidget.com/test" REACT_APP_PLACE_ID="placeidgoeshere" REACT_APP_SECRET_KEY="apikeygoeshere"></script>
 
-{/* <iframe allowtransparency="true" frameborder="0" height="100" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="http://googleads.g.doubleclick.net/pagead/ads?client="{PARAMS}" style="left:0;position:absolute;top:0" vspace="0" width="900"></iframe> */}
+/* <iframe allowtransparency="true" frameborder="0" height="100" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="http://googleads.g.doubleclick.net/pagead/ads?client="{PARAMS}" style="left:0;position:absolute;top:0" vspace="0" width="900"></iframe> */
