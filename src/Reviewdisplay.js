@@ -20,7 +20,6 @@ export default class ReviewDisplay extends Component {
               
     return axios.get('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + this.props.match.params.id + '&language=english&key=' + this.props.match.params.key)
     .then((response) => {
-        
         const businsessName = response.data.result.name;
         const reviewRating = response.data.result.rating;
         const reviewArr = [];
@@ -64,7 +63,7 @@ export default class ReviewDisplay extends Component {
               {!this.state.rating ? <h3>&nbsp;</h3>  :
               <h3 className="rating">{this.state.rating} <span><img src={stars} alt="stars" className="stars" /></span></h3>}
               <div className="reviews-box">
-              {/* Turnary statement determining if there were any reviews to display that are at least 4 stars, and if not displays a link to leave a review. Otherwise it displays the reviews listed in format similar to the Google page. */}
+              {/* Turnary statement determining if there were any reviews to display that are at least 4 stars, and if not displays a direct link to leave a review. Otherwise it displays the reviews listed in format similar to the Google page. */}
                 {!this.state.reviews.length ? 
                 <div className="no-reviews-box">
                     <p>
