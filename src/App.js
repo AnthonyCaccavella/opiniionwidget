@@ -9,6 +9,8 @@ class App extends Component {
     return (
       <div className="App">
         {Router}
+        {/* <a href="/#/placefinder"><button>Place Finder</button></a><br />
+        <a href="/#/:id/:key"><button>Reminder of schema</button></a> */}
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './opiniionlogo.png';
+import logo from '../PlaceFinder/opiniionlogo.png';
 // import getReviews from './reviews.js';
 import stars from './3D-Gold-Star-Transparent-Background.png';
 import axios from 'axios';

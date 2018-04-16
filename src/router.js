@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import ReviewDisplay from './Reviewdisplay';
-import Placefinder from './Placefinder';
+import ReviewDisplay from './Components/ReviewDisplay/Reviewdisplay';
+import Placefinder from './Components/PlaceFinder/Placefinder';
 
 
 export default (
