@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import logo from './opiniionlogo.png';
+import logo from '../PlaceFinder/logotransparent.png';
 import Autocomplete from 'react-google-autocomplete';
-import './Placefinder.css';
+import './SelfService.css';
 
-export default class ReviewDisplay extends Component {
+export default class SelfService extends Component {
     constructor() {
         super();
         this.state = ({
@@ -11,7 +11,9 @@ export default class ReviewDisplay extends Component {
             businessDetails: [],
             placeid: '',
             cid: '',
-            rotator: ''
+            rotator: '',
+            found: false,
+            multi: false
         })
     }
 
@@ -38,7 +40,7 @@ export default class ReviewDisplay extends Component {
                 <a href="https://www.opiniion.com"><img src={logo} alt="Opiniion"/></a>
             </header>
             <div className="search-bar">
-                <h5>Business Search</h5>
+                <h3>Step 1 - Find Your Business</h3>
                 <Autocomplete style={{width: '400px'}} onPlaceSelected={(place) => {
                     this.setState({
                         businessDetails:place,
@@ -47,12 +49,11 @@ export default class ReviewDisplay extends Component {
                         rating: place.rating,
                         reviews: place.reviews,
                         url: place.url,
-                        address: place.formatted_address,
-                        // cid: place.url.substring(place.url.indexOf('=')+1),
+                        address: place.formatted_address,                        
                         phone: place.formatted_phone_number,
                         rotator: ('http://search.google.com/local/writereview?placeid='+this.state.placeid),
                         website: place.website,
-                    
+                        found: true
                         })
                     console.log(this.state.businessDetails, this.state.cid);}} types={['establishment']}/>
 
@@ -63,19 +64,23 @@ export default class ReviewDisplay extends Component {
             {!this.state.address ? null :
             <p>Address: {this.state.address}</p> }
             {!this.state.phone ? null :
-            <p>Phone #: {this.state.phone.replace(/[^0-9]/g, "")}</p> }
-            {!this.state.placeid ? null :
-            <p>Place ID: {this.state.placeid}</p> }
+            <p>Phone #: {this.state.phone}</p> }
             {!this.state.rating ? null :
             <p>Current Google Rating: {this.state.rating} stars </p> }
-            {!this.state.cid ? null :
-            <p>CID: {this.state.cid}</p>}
-            {!this.state.rotator ? null :
-            <div>Rotator:<br/> {this.state.rotator}{this.state.placeid}</div>}
+
+            <input type="checkbox" onClick={() => this.setState({multi: !this.state.multi})}></input><span>I have multiple locations that I am signing up</span>
 
         </div>
+            }
+            {!this.state.found ? null: 
+            <div>
+                Contact Email <input type="text" required></input>
+                Contact Phone Number <input type="text" required></input>
+            </div>
             }    
-
+            {this.state.businessName? null : 
+            <h5>Can't find your business? No worries, <a href="/#/manual-sign-up">Enter Manually!</a></h5>
+            }
             </div>
         </div>
     )
