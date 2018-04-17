@@ -1,0 +1,45 @@
+.inputs-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;  
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 2px 4px rgba(0,0,0, 0.25);
+    border-top: 3px solid #4fbcb5;
+    border-radius: 5px;
+    background: rgba(255,255,255,.25);   
+    padding-top: 20px; 
+}
+
+.add-company-input {
+    width: 30vw;
+    height: 23px;
+    margin: 20px 70px 0px 70px;
+    padding: 10px;
+
+}
+
+.advance-button {
+    margin: 30px 0px 30px 0px;
+    padding: 10px 30px 10px 30px;
+    border-radius: 7px;
+    background: #4fbcb5;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+h3 {
+    /* color: white; */
+    margin-top: 40px;
+}
+
+h3 sub {
+    font-size: 11px;
+}
