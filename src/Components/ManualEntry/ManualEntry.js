@@ -20,19 +20,41 @@ export default class ManualEntry extends Component {
       step: 1
     };
     this.handleChange = this.handleChange.bind(this);
+    this.nextStep = this.nextStep.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
   nextStep() {
-      if(this.state.businessEmail & this.state.companyCity & this.state.companyPhone & this.state.companyName & this.state.companyAddressn !== '') {
+    //   if(this.state.businessEmail & this.state.companyCity & this.state.companyPhone & this.state.companyName & this.state.companyAddress !== '') {
           this.setState({
               step: 2
           })
-      } else {
-          alert(" Please fill out all fields")
-      }
+    //   } else {
+    //       alert(" Please fill out all fields")
+    //   }
   }
 
   handleChange(evt) {
     this.setState({ [evt.target.name]: evt.target.value });
+    console.log(evt.target.name,evt.target.value)
+  }
+
+  onSubmit() {
+    var test = 
+    // db.collection.insertOne(      
+      {
+        "Business Name": this.state.companyName,
+        "Business Email": this.state.businessEmail,
+        "Business Address": this.state.companyAddress,
+        "Business City": this.state.companyCity,
+        "Business State": this.state.companyState,
+        "Business Phone": this.state.companyPhone,
+        "First Name": this.state.firstName,
+        "Last Name": this.state.lastName,
+        "Email": this.state.contactEmail,
+        "Phone #": this.state.contactPhone,
+        "Password": this.state.password
+      }
+  //  )
   }
 
   render() {
@@ -51,6 +73,7 @@ export default class ManualEntry extends Component {
                 <form className="input-container">
                   <input
                     name="companyName"
+                    type="text"
                     className="add-company-input"
                     placeholder="Business Name"
                     disabled={this.state.addingCompany}
@@ -74,6 +97,7 @@ export default class ManualEntry extends Component {
                     name="companyAddress"
                     className="add-company-input"
                     placeholder="Business Address"
+                    type="text"
                     disabled={this.state.addingCompany}
                     onChange={this.handleChange}
                     value={this.state.companyAddress}
@@ -83,6 +107,7 @@ export default class ManualEntry extends Component {
                     name="companyCity"
                     className="add-company-input"
                     placeholder="Business City"
+                    type="text"
                     disabled={this.state.addingCompany}
                     onChange={this.handleChange}
                     value={this.state.companyCity}
@@ -91,6 +116,7 @@ export default class ManualEntry extends Component {
                   <input
                     name="companyState"
                     className="add-company-input"
+                    type="text"
                     placeholder="Business State"
                     disabled={this.state.addingCompany}
                     onChange={this.handleChange}
@@ -123,6 +149,7 @@ export default class ManualEntry extends Component {
                 <form className="input-container">
                   <input
                     name="firstName"
+                    type="text"
                     className="add-company-input"
                     placeholder="First Name"
                     disabled={this.state.addingCompany}
@@ -133,6 +160,7 @@ export default class ManualEntry extends Component {
                   <input
                     name="lastName"
                     className="add-company-input"
+                    type="text"
                     placeholder="Last Name"
                     disabled={this.state.addingCompany}
                     onChange={this.handleChange}
@@ -180,11 +208,11 @@ export default class ManualEntry extends Component {
                     disabled={this.state.addingCompany}
                     onChange={this.handleChange}
                     value={this.state.confirmPass}
-                    pattern="this.state.password"
+                    pattern={this.state.password}
                     required
                   />
                   <div>
-                    <button className="advance-button" onClick={() => this.setState({step: 1})}>Previous</button>
+                    <button className="previous-button" onClick={() => this.setState({step: 1})}>Previous</button>
                     <button className="advance-button">Finish</button>
                   </div>
                 </form>

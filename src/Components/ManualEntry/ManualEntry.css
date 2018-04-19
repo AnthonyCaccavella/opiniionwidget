@@ -34,6 +34,16 @@
     cursor: pointer;
     font-size: 18px;
 }
+.previous-button {
+    margin: 30px 20px 30px 0px;
+    padding: 10px 30px 10px 30px;
+    border-radius: 7px;
+    background: #f48d46;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+}
 
 h3 {
     /* color: white; */
