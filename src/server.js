@@ -6,11 +6,9 @@ let app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// https://www.googleapis.com/books/v1/{collectionName}/resourceID?parameters
 
 
-
-app.post('api/integrations', (req, res) => {        
+app.get('api/integrations', (req, res) => {        
     res.send("Hello Friend");                
 })
 
