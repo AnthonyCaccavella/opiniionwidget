@@ -5,6 +5,7 @@ import ReviewDisplay from './Components/ReviewDisplay/Reviewdisplay';
 import Placefinder from './Components/PlaceFinder/Placefinder';
 import SelfService from './Components/SelfServiceSignUp/SelfServiceSignUp';
 import ManualEntry from './Components/ManualEntry/ManualEntry';
+import Integrations from './Components/Integrations/Integrations';
 
 
 export default (
@@ -14,6 +15,7 @@ export default (
     <Route path="/placefinder" component={Placefinder} />
     <Route path="/sign-up" component={SelfService} />
     <Route path="/manual-sign-up" component={ManualEntry} />
+    <Route path="/integrations" component={Integrations} />
     <Route render={() => {
         return(<div>Page Not Found</div>)
     }} />

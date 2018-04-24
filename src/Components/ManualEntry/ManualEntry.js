@@ -39,6 +39,7 @@ export default class ManualEntry extends Component {
   }
 
   onSubmit() {
+    // eslint-disable-next-line
     var test = 
     // db.collection.insertOne(      
       {
@@ -55,6 +56,7 @@ export default class ManualEntry extends Component {
         "Password": this.state.password
       }
   //  )
+  // In case we want to continue to use Mongo, I set up the db call to do so.
   }
 
   render() {
@@ -71,69 +73,12 @@ export default class ManualEntry extends Component {
               <div>
                 <h3>Tell us about your business</h3>
                 <form className="input-container">
-                  <input
-                    name="companyName"
-                    type="text"
-                    className="add-company-input"
-                    placeholder="Business Name"
-                    disabled={this.state.addingCompany}
-                    onChange={this.handleChange}
-                    value={this.state.companyName}
-                    autoFocus
-                    required
-                  />
-                  <input
-                    name="businessEmail"
-                    className="add-company-input"
-                    placeholder="Business Email"
-                    type="email"
-                    disabled={this.state.addingCompany}
-                    onChange={this.handleChange}
-                    value={this.state.businessEmail}
-                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
-                    required
-                  />
-                  <input
-                    name="companyAddress"
-                    className="add-company-input"
-                    placeholder="Business Address"
-                    type="text"
-                    disabled={this.state.addingCompany}
-                    onChange={this.handleChange}
-                    value={this.state.companyAddress}
-                    required
-                  />
-                  <input
-                    name="companyCity"
-                    className="add-company-input"
-                    placeholder="Business City"
-                    type="text"
-                    disabled={this.state.addingCompany}
-                    onChange={this.handleChange}
-                    value={this.state.companyCity}
-                    required
-                  />
-                  <input
-                    name="companyState"
-                    className="add-company-input"
-                    type="text"
-                    placeholder="Business State"
-                    disabled={this.state.addingCompany}
-                    onChange={this.handleChange}
-                    value={this.state.companyState}
-                    required
-                  />
-                  <input
-                    name="companyPhone"
-                    className="add-company-input"
-                    placeholder="Business Phone"
-                    type="tel"
-                    disabled={this.state.addingCompany}
-                    onChange={this.handleChange}
-                    value={this.state.companyPhone}
-                    pattern="\d{3}[\-]\d{3}[\-]\d{4}"
-                    required
-                  />
+                  <input name="companyName" type="text" className="add-company-input" placeholder="Business Name" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.companyName} autoFocus required />
+                  <input name="businessEmail" className="add-company-input" placeholder="Business Email" type="email" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.businessEmail} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required />
+                  <input name="companyAddress" className="add-company-input" placeholder="Business Address" type="text" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.companyAddress} required />
+                  <input name="companyCity" className="add-company-input" placeholder="Business City" type="text" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.companyCity} required />
+                  <input name="companyState" className="add-company-input" type="text" placeholder="Business State" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.companyState} required />
+                  <input name="companyPhone" className="add-company-input" placeholder="Business Phone" type="tel" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.companyPhone} pattern="\d{3}[\-]\d{3}[\-]\d{4}" required />
 
                   <button
                     className="advance-button"
@@ -147,70 +92,12 @@ export default class ManualEntry extends Component {
               <div>
                 <h3>Tell Us About Yourself</h3>
                 <form className="input-container">
-                  <input
-                    name="firstName"
-                    type="text"
-                    className="add-company-input"
-                    placeholder="First Name"
-                    disabled={this.state.addingCompany}
-                    onChange={this.handleChange}
-                    value={this.state.firstName}
-                    required
-                  />
-                  <input
-                    name="lastName"
-                    className="add-company-input"
-                    type="text"
-                    placeholder="Last Name"
-                    disabled={this.state.addingCompany}
-                    onChange={this.handleChange}
-                    value={this.state.lastName}
-                    required
-                  />
-                  <input
-                    name="contactEmail"
-                    className="add-company-input"
-                    type="email"
-                    placeholder="Email"
-                    disabled={this.state.addingCompany}
-                    onChange={this.handleChange}
-                    value={this.state.contactEmail}
-                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
-                    required
-                  />
-                  <input
-                    name="contactPhone"
-                    className="add-company-input"
-                    placeholder="Phone Number"
-                    type="tel"
-                    disabled={this.state.addingCompany}
-                    onChange={this.handleChange}
-                    value={this.state.contactPhone}
-                    pattern="\d{3}[\-]\d{3}[\-]\d{4}"
-                    required
-                  />
-                  <input
-                    name="password"
-                    className="add-company-input"
-                    type="password"
-                    placeholder="Password"
-                    disabled={this.state.addingCompany}
-                    onChange={this.handleChange}
-                    value={this.state.password}
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                    required
-                  />
-                  <input
-                    name="confirmPass"
-                    className="add-company-input"
-                    type="password"
-                    placeholder="Confirm Password"
-                    disabled={this.state.addingCompany}
-                    onChange={this.handleChange}
-                    value={this.state.confirmPass}
-                    pattern={this.state.password}
-                    required
-                  />
+                  <input name="firstName" type="text" className="add-company-input" placeholder="First Name" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.firstName} required />
+                  <input name="lastName" className="add-company-input" type="text" placeholder="Last Name" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.lastName} required />
+                  <input name="contactEmail" className="add-company-input" type="email" placeholder="Email" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.contactEmail} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required />
+                  <input name="contactPhone" className="add-company-input" placeholder="Phone Number" type="tel" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.contactPhone} pattern="\d{3}[\-]\d{3}[\-]\d{4}" required />
+                  <input name="password" className="add-company-input" type="password" placeholder="Password" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.password} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required />
+                  <input name="confirmPass" className="add-company-input" type="password" placeholder="Confirm Password" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.confirmPass} pattern={this.state.password} required />
                   <div>
                     <button className="previous-button" onClick={() => this.setState({step: 1})}>Previous</button>
                     <button className="advance-button">Finish</button>

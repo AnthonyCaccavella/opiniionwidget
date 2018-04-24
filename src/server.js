@@ -8,7 +8,7 @@ app.use(cors());
 
 // https://www.googleapis.com/books/v1/{collectionName}/resourceID?parameters
 
-axios.get('https://maps.googleapis.com/maps/api/place/details/json?placeid')
+axios.get('https://opiniiontestlocal.herokuapp.com/smarthook')
 
 
 
