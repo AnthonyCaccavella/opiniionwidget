@@ -10,7 +10,7 @@ app.use(cors());
 
 
 
-app.post('/integrations', (req, res) => {
+app.post('api/integrations', (req, res) => {
         ((response) => {
             return res.send(response);
         })
