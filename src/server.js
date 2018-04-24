@@ -10,11 +10,8 @@ app.use(cors());
 
 
 
-app.post('api/integrations', (req, res) => {
-        ((response) => {
-            return res.send(response);
-        })
-        // .then(axios.get()
+app.post('api/integrations', (req, res) => {        
+    res.send("Hello Friend");                
 })
 
 
