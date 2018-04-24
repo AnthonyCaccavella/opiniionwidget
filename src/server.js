@@ -11,7 +11,7 @@ app.use(cors());
 
 
 app.post('/integrations', (req, res) => {
-    ((response) => {
+        ((response) => {
             return res.send(response);
         })
 })
