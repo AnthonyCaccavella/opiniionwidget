@@ -8,7 +8,13 @@ app.use(cors());
 
 // https://www.googleapis.com/books/v1/{collectionName}/resourceID?parameters
 
-axios.get('https://opiniiontestlocal.herokuapp.com/smarthook')
+
+
+app.post('/integrations', (req, res) => {
+    ((response) => {
+            return res.send(response);
+        })
+})
 
 
 
