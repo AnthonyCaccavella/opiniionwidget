@@ -8,7 +8,7 @@ app.use(cors());
 
 
 
-app.get('/api/integrations', (req, res) => {        
+app.post('/api/integrations', (req, res) => {        
     res.send({
         "testing": true
     });                
