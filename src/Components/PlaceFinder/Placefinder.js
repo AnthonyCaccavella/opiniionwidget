@@ -71,7 +71,7 @@ export default class ReviewDisplay extends Component {
             {!this.state.cid ? null :
             <p>CID: {this.state.cid}</p>}
             {!this.state.rotator ? null :
-            <div>Rotator:<br/> {this.state.rotator}{this.state.placeid}</div>}
+            <div>Rotator:<br/> <a href={this.state.rotator + this.state.placeid}>{this.state.rotator}{this.state.placeid}</a></div>}
 
         </div>
             }    

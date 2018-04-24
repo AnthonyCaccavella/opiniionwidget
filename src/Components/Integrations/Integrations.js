@@ -37,12 +37,17 @@ export default class Integrations extends Component {
     }
 
     componentDidMount() {
-        this.getData().then(response => {
-            this.setState({
-                data: response
-            })
+
+        axios.get('/app/integrations').then(res => {
+            console.log(res)
         })
-        console.log("Retrieved data:", this.state)
+
+        // this.getData().then(response => {
+        //     this.setState({
+        //         data: response
+        //     })
+        // })
+        // console.log("Retrieved data:", this.state)
     }
 
     render() {

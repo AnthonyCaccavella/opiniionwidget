@@ -8,8 +8,10 @@ app.use(cors());
 
 
 
-app.get('api/integrations', (req, res) => {        
-    res.send("Hello Friend");                
+app.get('/api/integrations', (req, res) => {        
+    res.send({
+        "testing": true
+    });                
 })
 
 
