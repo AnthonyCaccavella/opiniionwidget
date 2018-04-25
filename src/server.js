@@ -25,12 +25,17 @@ app.post("/api/integrations", (req, res) => {
         var email = re.waiver.email;
         var ip = re.waiver.clientIP;
         for (var i = 0; i < re.waiver.participants.length; i++) {
-          var firstname = re.waiver.participants[i].firstName;
-          var lastname = re.waiver.participants[i].lastName;
-          var phone = re.waiver.participants[i].phone;
-          var isMinor = re.waiver.participants[i].isMinor;
+            if(!re.waiver.participants[i].isMinor) {
+                var firstname = re.waiver.participants[i].firstName;
+                var lastname = re.waiver.participants[i].lastName;
+                var phone = re.waiver.participants[i].phone;
+                var isMinor = re.waiver.participants[i].isMinor;
+            } else {
+                return "Is a minor - not adding"
+            }
         }
       })
+//      .then(axios.post(' https://app.opiniion.com/_services/opiniion/customer?uid='+ {UID} +'&api='+{APIKEY}+'&firstname='+{firsname}+'&lastname='+{lastname}+'&email='+{email}+'&countrycode=+1&phone='+{phone}+'&notes='+{ip}+{time}+{isMinor}))      
   );
 });
 
