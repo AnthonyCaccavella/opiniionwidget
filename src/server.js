@@ -12,6 +12,10 @@ app.post("/api/integrations", (req, res) => {
   let uniqueid = req.body.unique_id;
   let credential = req.body.credential;
   let event = req.body.event;
+  if (req.body.UID && req.body.APIKEY){
+      let UID = req.body.UID;
+      let APIKEY = req.body.APIKEY;
+  }
   res.send("done " + uniqueid + " " + credential + " " + event).then(
     axios
       .get(
@@ -35,7 +39,7 @@ app.post("/api/integrations", (req, res) => {
             }
         }
       })
-//      .then(axios.post(' https://app.opiniion.com/_services/opiniion/customer?uid='+ {UID} +'&api='+{APIKEY}+'&firstname='+{firsname}+'&lastname='+{lastname}+'&email='+{email}+'&countrycode=+1&phone='+{phone}+'&notes='+{ip}+{time}+{isMinor}))      
+     .then(axios.post(' https://app.opiniion.com/_services/opiniion/customer?uid='+ {UID} +'&api='+{APIKEY}+'&firstname='+{firsname}+'&lastname='+{lastname}+'&email='+{email}+'&countrycode=+1&phone='+{phone}+'&notes='+{ip}+{time}+{isMinor}))      
   );
 });
 
