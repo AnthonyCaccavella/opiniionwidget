@@ -1,61 +1,90 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-
+import React, { Component } from "react";
+import axios from "axios";
 
 export default class Integrations extends Component {
-    constructor() {
-        super()
-        this.state = ({
-            firstname: '',
-            lastname: '',
-            phone: '',
-            email: '',
-            data: [],
-            id: '',
-            time: '',
+  constructor() {
+    super();
+    this.state = {
+      ipID: "",
+      api: "",
+      aid: "",
+      pid: "",
+      data: [],
+      sourcename,
+      password,
+      siteid,
+      userpassword,
+      username,
+      locationid
+    };
+  }
 
-        })
-    }
+  //External Integrations
 
-    getData() {
-        return axios.get('https://api.smartwaiver.com/v4/waivers?sw-api-key=bbb72acd83905aaa69c028ad80d71459').then((response) => {
-            this.setState({
-                time: response.data.ts,
-                id: response.data.id,
-            })
-            const returnData = [];
-            const smartWaiver = {};
-            let re = response.data.waivers
-            for (var i = 0; i < re.length; i++) {
-                smartWaiver.first = re[i].firstName;
-                smartWaiver.last = re[i].lastName;
-                smartWaiver.waiverId = re[i].waiverId;
-                returnData.push(smartWaiver);
-            }
-            return returnData;
-        })
-    }
+  // Resman
 
-    componentDidMount() {
+  resmanData() {
+    axios
+      .post(
+        "https://api.myresman.com/Leasing/GetCurrentResidents?IntegrationPartnerID=" + { ipID } + "&ApiKey=" + { api } + "&AccountID=" + { aid } + "&PropertyID=" + { pid }
+      )
+      .then(response => {
+        const data = response.data;
+      });
+  }
 
-        axios.get('/app/integrations').then(res => {
-            console.log(res)
-        })
+  // Mindbody
 
-        // this.getData().then(response => {
-        //     this.setState({
-        //         data: response
-        //     })
-        // })
-        // console.log("Retrieved data:", this.state)
-    }
+  mindBodyData() {
+    let mindxmls = `<soapenv:envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns='http://clients.mindbodyonline.com/api/0_5_1'>
+        <soapenv:header />
+        <soapenv:body>
+            <GetClients>
+                <request>
+                    <sourcecredentials>
+                    <sourcename>${this.state.sourcename}</sourcename>
+                    <password>${this.state.password}</password>
+                    <siteids> 
+                        <int>${this.state.siteid}</int>
+                    </siteids>
+                    </sourcecredentials>
+                    <UserCredentials>
+                    <Username>${this.state.username}</Username>
+                    <Password>${this.state.userpassword}</Password>
+                    <SiteIDs>
+                        <int>${this.state.siteid}</int>
+                    </SiteIDs>
+                    <LocationID>${this.state.locationid}</LocationID>
+                    </UserCredentials>
+                    <XMLDetail>Small</XMLDetail>
+                    <PageSize>1500</PageSize>
+                    <CurrentPageIndex>0</CurrentPageIndex>
+                    <SearchText></SearchText>
+                </request>
+            </GetClients>
+        </soapenv:Body />
+        </soapenv:Envelope />`;
 
-    render() {
-        return (
-         <div>
-            Hello World!
+    axios
+      .post(
+        'http://clients.mindbodyonline.com/api/0_5_1',
+        mindxmls,
+        {
+          headers: { "Content-Type": "text/xml" }
+        }
+      )
+      .then(res => {
+        console.log(res);
+        // (axios.post(' https://app.opiniion.com/_services/opiniion/customer?uid='+ {UID} +'&api='+{APIKEY}+'&firstname='+{firsname}+'&lastname='+{lastname}+'&email='+{email}+'&countrycode=+1&phone='+{phone}+'&notes='+{ip}+{time}+{isMinor})) 
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
-         </div>   
-        )
-    }
+  componentDidMount() {}
+
+  render() {
+    return <div>Hello World!</div>;
+  }
 }

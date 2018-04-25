@@ -7,7 +7,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-app.post("/api/integrations", (req, res) => {
+//Internal integrations 
+
+
+
+
+// Smartwaiver
+
+app.post("/api/integrations/smartwaiver", (req, res) => {
   // res.send("test " + req.body)
   let uniqueid = req.body.unique_id;
   let credential = req.body.credential;
@@ -16,7 +23,7 @@ app.post("/api/integrations", (req, res) => {
       let UID = req.body.UID;
       let APIKEY = req.body.APIKEY;
   }
-  res.send("done " + uniqueid + " " + credential + " " + event).then(
+  res.send("Created! " + uniqueid + " " + credential + " " + event).then(
     axios
       .get(
         "https://api.smartwaiver.com/v4/waivers/" +
@@ -42,6 +49,13 @@ app.post("/api/integrations", (req, res) => {
      .then(axios.post(' https://app.opiniion.com/_services/opiniion/customer?uid='+ {UID} +'&api='+{APIKEY}+'&firstname='+{firsname}+'&lastname='+{lastname}+'&email='+{email}+'&countrycode=+1&phone='+{phone}+'&notes='+{ip}+{time}+{isMinor}))      
   );
 });
+
+
+
+// Next Integration
+
+
+// Internal server setup (localhost:XXXX)
 
 app.listen(3004, () => {
   console.log("Listening on port 3004");
