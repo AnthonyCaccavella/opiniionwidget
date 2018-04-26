@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import './Integrations.css';
 
 export default class Integrations extends Component {
   constructor() {
@@ -17,6 +18,7 @@ export default class Integrations extends Component {
       username:'',
       locationid:''
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   //External Integrations
@@ -96,29 +98,30 @@ export default class Integrations extends Component {
         <h2>
           MindBody SOAP Integration:
         </h2>
-          <form action="this.onSubmit()">
+          <form action={this.onSubmit()}>
           <label>Company</label>
           <input type="text" placeholder="Company" name="businessName" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.businessName} required />
           <label>Opiniion UID</label>          
-          <input type="text" placeholder="UID" name="opiniionUID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.opiniionUID} required />
+          <input type="text" placeholder="UID" name="opiniionUID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.opiniionUID} required /><br/>
           <label>Opiniion Api Key</label>
           <input type="text" placeholder="Opiniion Api Key" name="opiniionAPI" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.opiniionAPI} required />
           <label>Source Name</label>
-          <input type="text" placeholder="Source Name" name="sourceName" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.sourceName} required />
+          <input type="text" placeholder="Source Name" name="sourceName" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.sourceName} required /><br/>
           <label>Source Password</label>
           <input type="text" placeholder="Source Password" name="sourcePassword" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.sourcePassword} required />
           <label>Site ID</label>
-          <input type="text" placeholder="Site ID" name="siteID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.siteID} required />
+          <input type="text" placeholder="Site ID" name="siteID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.siteID} required /><br/>
           <label>User Name</label>
           <input type="text" placeholder="User Name" name="userName" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.userName} required />
           <label>User Password</label>
-          <input type="text" placeholder="User Password" name="userPassword" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.userPassword} required />
+          <input type="text" placeholder="User Password" name="userPassword" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.userPassword} required /><br/>
           <label>Location ID</label>
-          <input type="text" placeholder="Location ID" name="locationID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.locationID} required />
+          <input type="text" placeholder="Location ID" name="locationID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.locationID} required /><br/>
 
-          <button onSubmit="this.onSubmit()">Submit</button>
+          <button onSubmit={this.onSubmit()}>Submit</button>
+          <button type="reset">Clear</button>
           </form>
-        <h2>
+        {/* <h2>
           JSON Integrations:
         </h2>
           <form action="">
@@ -137,7 +140,7 @@ export default class Integrations extends Component {
           <input type="text" placeholder="API Key"/>
           <input type="text" placeholder="Additional Data"/>
           <button>Submit</button>
-          </form>
+          </form> */}
       </div>
       </div>;
   }

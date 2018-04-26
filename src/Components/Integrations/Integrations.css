@@ -1,0 +1,10 @@
+.add-data-input {
+    height: 20px;
+    width: 33%;
+    margin-left: 30px;
+    margin-right: 10px;
+}
+label {
+    margin-left: 3%;
+    width: 200px;
+}
