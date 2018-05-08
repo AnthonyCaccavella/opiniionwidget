@@ -57,9 +57,9 @@ var mindbodyJob = new CronJob('*/30 * * * * 1-7', function() {
       .then(response => {
         let re = response.getElementsByTagName('client')[i].childNodes;
         if(re.MobilePhone) {
-          axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=' + ${e.bid} + '&api=' + ${e.apikey} + '&firstname=' + ${re['FirstName'].nodeValue} + '&lastname='+ ${re[LastName].nodeValue} + '&email=' + ${re[Email].nodeValue} + '&countrycode=+1&phone=' + ${re[MobilePhone].nodeValue}`)
+          axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${e.bid}&api=${e.apikey}&firstname=${re['FirstName'].nodeValue}&lastname=${re[LastName].nodeValue}&email=${re[Email].nodeValue}&countrycode=+1&phone=${re[MobilePhone].nodeValue}`)
         } else {
-          axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=' + ${e.bid} + '&api=' + ${e.apikey} + '&firstname=' + ${re['FirstName'].nodeValue} + '&lastname='+ ${re[LastName].nodeValue} + '&email=' + ${re[Email].nodeValue} + '&countrycode=+1&phone=' + ${re[HomePhone].nodeValue}`)
+          axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${e.bid}&api=${e.apikey}&firstname=${re['FirstName'].nodeValue}&lastname='+ ${re[LastName].nodeValue}&email=${re[Email].nodeValue}&countrycode=+1&phone=${re[HomePhone].nodeValue}`)
         }
         })
         .catch(err => {
@@ -70,8 +70,25 @@ var mindbodyJob = new CronJob('*/30 * * * * 1-7', function() {
 }, true);
 
 var resmanJob = new CronJob('*/30 * * * * 1-7', function() {
-
-}, true);
+  axios.get('/getresdata').then(res => {
+    res.map((e,i) => {
+      let bid1 = e.bid;
+      let apikey1 = e.apikey;
+      axios.post(`https://api.myresman.com/Leasing/GetCurrentResidents?IntegrationPartnerID=${e.ipid}&ApiKey=${e.api}&AccountID=${e.datapoint1}&PropertyID=${e.pid}`
+      )})
+      .then(response => {
+        const data = response.data;
+        data.map((e,i) => {
+          if (e.residents[i].IsMinor && e.residents[i].IsMinor == "True") {
+            return "It's a minor - not contacting!"
+          } else {
+            axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.firstname}&lastname=${e.lastname}&email=${e.email}&countrycode=+1&phone=${e.phone}`)
+          }
+        });
+      })
+  }, 
+true);
+});
 
 var volusionJob = new CronJob('*/30 * * * * 1-7', function() {
 
@@ -168,7 +185,7 @@ app.post("/api/integrations/smartwaiver", (req, res) => {
     }).catch( (error)=> {
       console.log(error)
     })
-    .then(axios.post(' https://app.opiniion.com/_services/opiniion/customer?uid='+ {UID} +'&api='+{APIKEY}+'&firstname='+{firsname}+'&lastname='+{lastname}+'&email='+{email}+'&countrycode=+1&phone='+{phone}+'&notes='+{ip}+{time}+{isMinor})).catch( (error)=> {
+    .then(axios.post(' https://app.opiniion.com/_services/opiniion/customer?uid='+ {UID} +'&api='+{APIKEY}+'&firstname='+{firstname}+'&lastname='+{lastname}+'&email='+{email}+'&countrycode=+1&phone='+{phone}+'&notes='+{ip}+{time}+{isMinor})).catch( (error)=> {
       console.log(error)
     })      
   );
