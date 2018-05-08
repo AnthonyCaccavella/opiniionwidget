@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import './Integrations.css';
+import "./Integrations.css";
 
 export default class Integrations extends Component {
   constructor() {
@@ -10,138 +10,343 @@ export default class Integrations extends Component {
       api: "",
       aid: "",
       pid: "",
-      data: [],
-      sourcename:'',
-      password:'',
-      siteid:'',
-      userpassword:'',
-      username:'',
-      locationid:''
+      mbData: [],
+      volData: [],
+      resData: [],
+      sourcename: "",
+      password: "",
+      siteid: "",
+      userpassword: "",
+      username: "",
+      locationid: "",
+      curl: "",
+      cemail: "",
+      companyPassword: "",
+      CoID: "",
+
     };
     this.handleChange = this.handleChange.bind(this);
+    this.onMBSubmit = this.onMBSubmit.bind(this);
+    this.onVolSubmit = this.onVolSubmit.bind(this);
+    this.onResmanSubmit = this.onResmanSubmit.bind(this);
+    // this.onClear = this.onClear.bind(this);
   }
 
-  //External Integrations
 
-  // Resman
-
-  resmanData() {
-    axios
-      .post(
-        `"https://api.myresman.com/Leasing/GetCurrentResidents?IntegrationPartnerID=" + ${this.state.ipID} + "&ApiKey=" + ${this.state.api } + "&AccountID=" + ${this.state.aid } + "&PropertyID=" + ${this.state.pid }`
-      )
-      .then(response => {
-        const data = response.data;
-      });
-  }
-
-  // Mindbody
-
-  mindBodyData() {
-    let mindxmls = `<soapenv:envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns='http://clients.mindbodyonline.com/api/0_5_1'>
-        <soapenv:header />
-        <soapenv:body>
-            <GetClients>
-                <request>
-                    <sourcecredentials>
-                    <sourcename>${this.state.sourcename}</sourcename>
-                    <password>${this.state.password}</password>
-                    <siteids> 
-                        <int>${this.state.siteid}</int>
-                    </siteids>
-                    </sourcecredentials>
-                    <UserCredentials>
-                    <Username>${this.state.username}</Username>
-                    <Password>${this.state.userpassword}</Password>
-                    <SiteIDs>
-                        <int>${this.state.siteid}</int>
-                    </SiteIDs>
-                    <LocationID>${this.state.locationid}</LocationID>
-                    </UserCredentials>
-                    <XMLDetail>Small</XMLDetail>
-                    <PageSize>1500</PageSize>
-                    <CurrentPageIndex>0</CurrentPageIndex>
-                    <SearchText></SearchText>
-                </request>
-            </GetClients>
-        </soapenv:Body />
-        </soapenv:Envelope />`;
-
-    axios
-      .post(
-        'http://clients.mindbodyonline.com/api/0_5_1',
-        mindxmls,
-        {
-          headers: { "Content-Type": "text/xml" }
-        }
-      )
-      .then(res => {
-        console.log(res);
-        // (axios.post(' https://app.opiniion.com/_services/opiniion/customer?uid='+ {UID} +'&api='+{APIKEY}+'&firstname='+{firsname}+'&lastname='+{lastname}+'&email='+{email}+'&countrycode=+1&phone='+{phone}+'&notes='+{ip}+{time}+{isMinor})) 
+  componentDidMount() {
+    axios.get('/getmbdata').then(res => {
+      this.setState({
+        mbData: res.data
       })
-      .catch(err => {
-        console.log(err);
-      });
+      
+    })
+    axios.get('/getvoldata').then(res => {
+      this.setState({
+        volData: res.data
+      })
+    })
+    axios.get('/getresdata').then(res => {
+      this.setState({
+        resData: res.data
+      })
+    })
   }
 
   handleChange(evt) {
     this.setState({ [evt.target.name]: evt.target.value });
-    console.log(evt.target.name,evt.target.value)
+  }
+//needs to have type fixed - not setting it in state.
+
+  onMBSubmit() {
+    this.setState({
+      inttype: 'MindBody'
+    }, function stateUpdateComplete() {
+      axios.post('/postmbdata', this.state).then((res) => {
+        console.log(res)
+        this.setState({
+          businessName: "",
+          opiniionUID: "",
+          opiniionAPI: "",
+          sourceName: "",
+          sourcePassword: "",
+          siteID: "",
+          userName: "",
+          userPassword: "",
+          locationID: "",          
+        })
+      })
+    })       
+      alert('Integration Data Submitted!')
+
+    }
+    
+      onResmanSubmit() {
+        this.setState({
+          inttype: 'Resman'
+        }, function stateUpdateComplete() {
+    
+          axios.post('/postresdata', this.state).then((res) => {
+            console.log(res)
+            this.setState({
+            businessName: "",
+            opiniionUID: "",
+            opiniionAPI: "",
+            pid: "",
+            aid: "",
+            api: "",
+            ipID: "",
+            })
+          })
+        })
+          alert('Integration Data Submitted!')
+      }
+
+
+  onVolSubmit() {
+    this.setState({
+      inttype: 'Volusion'
+    }, function stateUpdateComplete() {
+
+      axios.post('/postvoldata', this.state).then((res) => {
+        console.log(res)
+        this.setState({
+          businessName: "",
+          opiniionUID: "",
+          opiniionAPI: "",
+          curl: "",
+          cemail: "",
+          companyPassword: "",
+          CoID: "",
+          moredata1: "",
+          moredata2: "",
+          moredata3: "",
+        })
+      })
+    })
+      alert('Integration Data Submitted!')
   }
 
-  onSubmit() {}
 
   render() {
-    return <div>
-      <header>Integrations Middleware</header>
-      <div>
-        <h2>
-          MindBody SOAP Integration:
-        </h2>
-          <form action={this.onSubmit()}>
-          <label>Company</label>
-          <input type="text" placeholder="Company" name="businessName" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.businessName} required />
-          <label>Opiniion UID</label>          
-          <input type="text" placeholder="UID" name="opiniionUID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.opiniionUID} required /><br/>
-          <label>Opiniion Api Key</label>
-          <input type="text" placeholder="Opiniion Api Key" name="opiniionAPI" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.opiniionAPI} required />
-          <label>Source Name</label>
-          <input type="text" placeholder="Source Name" name="sourceName" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.sourceName} required /><br/>
-          <label>Source Password</label>
-          <input type="text" placeholder="Source Password" name="sourcePassword" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.sourcePassword} required />
-          <label>Site ID</label>
-          <input type="text" placeholder="Site ID" name="siteID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.siteID} required /><br/>
-          <label>User Name</label>
-          <input type="text" placeholder="User Name" name="userName" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.userName} required />
-          <label>User Password</label>
-          <input type="text" placeholder="User Password" name="userPassword" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.userPassword} required /><br/>
-          <label>Location ID</label>
-          <input type="text" placeholder="Location ID" name="locationID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.locationID} required /><br/>
+    const mindBodyData = this.state.mbData.map((e,i) => {
+      return (
+          // <div className="displayinfo" key={i}>
+            <tbody>
+              <td className="name">{e.name}</td>
+              <td className="bid">{e.bid}</td>
+              <td className="api">{e.apikey}</td>
+              </tbody>
+          // </div>
+      )
+  })
+    const volusionData = this.state.volData.map((e,i) => {
+      return (
+        // <div className="displayinfo" key={i}>
+          <tbody>
+            <td className="name">{e.name}</td>
+            <td className="bid">{e.bid}</td>
+            <td className="api">{e.apikey}</td>
+            </tbody>
+        // </div>
+    )
+  })
+    const resmanData = this.state.resData.map((e,i) => {
+      return (
+        // <div className="displayinfo" key={i}>
+          <tbody>
+            <td className="name">{e.name}</td>
+            <td className="bid">{e.bid}</td>
+            <td className="api">{e.apikey}</td>
+            </tbody>
+        // </div>
+    )
+  })
 
-          <button onSubmit={this.onSubmit()}>Submit</button>
-          <button type="reset">Clear</button>
-          </form>
-        {/* <h2>
-          JSON Integrations:
-        </h2>
-          <form action="">
-          <input type="text" placeholder="Company"/>
-          <input type="text" placeholder="UID"/>
-          <input type="text" placeholder="API Key"/>
-          <input type="text" placeholder="Additional Data"/>
-          <button>Submit</button>
-          </form>
-        <h2>
-          Other Integrations:
-        </h2>
-          <form action="">
-          <input type="text" placeholder="Company"/>
-          <input type="text" placeholder="UID"/>
-          <input type="text" placeholder="API Key"/>
-          <input type="text" placeholder="Additional Data"/>
-          <button>Submit</button>
-          </form> */}
+    return (
+      <div>
+        <header>
+          <h1>Integrations Middleware</h1>
+        </header>
+        <div>
+          <h2>MindBody SOAP Integration:</h2>
+          <div>
+            <div>
+              <div className="input-field">
+                <label>Company</label>
+                <input type="text" placeholder="Company" name="businessName" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.businessName} required />
+              </div>
+              <div className="input-field">
+                <label>Opiniion UID</label>
+                <input type="text" placeholder="UID" name="opiniionUID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.opiniionUID} required />
+              </div>
+              <div className="input-field">
+                <label>Opiniion Api Key</label>
+                <input type="text" placeholder="Opiniion Api Key" name="opiniionAPI" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.opiniionAPI} required />
+              </div>
+              <div className="input-field">
+                <label>Source Name</label>
+                <input type="text" placeholder="Source Name" name="sourceName" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.sourceName} required />
+              </div>
+            </div>
+            <div>
+              <div className="input-field">
+                <label>Source Password</label>
+                <input type="text" placeholder="Source Password" name="sourcePassword" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.sourcePassword} required />
+              </div>
+              <div className="input-field">
+                <label>Site ID</label>
+                <input type="text" placeholder="Site ID" name="siteID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.siteID} required />
+              </div>
+              <div className="input-field">
+                <label>User Name</label>
+                <input type="text" placeholder="User Name" name="userName" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.userName} required />
+              </div>
+              <div className="input-field">
+                <label>User Password</label>
+                <input type="text" placeholder="User Password" name="userPassword" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.userPassword} required />
+              </div>
+              <div className="input-field">
+                <label>Location ID</label>
+                <input type="text" placeholder="Location ID" name="locationID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.locationID} required />
+              </div>
+            </div>
+            <div className="button-container">
+              <button className="submit-button" onClick={this.onMBSubmit}>
+                Submit
+              </button>
+              <div className="table-container">
+                <table>
+                <tbody>
+                  <th>Name</th>
+                  <th>BSID</th>
+                  <th>Opiniion API Key</th>
+                </tbody>
+                {mindBodyData}
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div>
+          <h2>Resman Integration:</h2>
+          <div>
+            <div>
+            <div className="input-field">
+                <label>Company</label>
+                <input type="text" placeholder="Company" name="businessName" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.businessName} required />
+              </div>
+              <div className="input-field">
+                <label>Opiniion UID</label>
+                <input type="text" placeholder="UID" name="opiniionUID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.opiniionUID} required />
+              </div>
+              <div className="input-field">
+                <label>Opiniion Api Key</label>
+                <input type="text" placeholder="Opiniion Api Key" name="opiniionAPI" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.opiniionAPI} required />
+              </div>
+              <div className="input-field">
+                <label>Integration Partner ID</label>
+                <input type="text" placeholder="Company" name="ipID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.ipID} required />
+              </div>
+              <div className="input-field">
+                <label>Resman API Key</label>
+                <input type="text" placeholder="Res API Key" name="api" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.api} required />
+              </div>
+            </div>
+            <div>
+              <div className="input-field">
+                <label>Resman Account ID</label>
+                <input type="text" placeholder="AID" name="aid" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.aid} required />
+              </div>
+              <div className="input-field">
+                <label>Resman Property ID</label>
+                <input type="text" placeholder="PID" name="pid" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.pid} required />
+              </div>
+            </div>
+            <div className="button-container">
+              <button className="submit-button" onClick={this.onResmanSubmit}>
+                Submit
+              </button>
+          <div className="table-container">
+          <table>
+                <tbody>
+                  <th>Name</th>
+                  <th>BSID</th>
+                  <th>Opiniion API Key</th>
+                </tbody>
+            {resmanData}
+            </table>
+          </div>
+
+            </div>
+          </div>
+        </div>
+        <div>
+          <h2>Volution Integration:</h2>
+          <div>
+            <div>
+            <div className="input-field">
+                <label>Company</label>
+                <input type="text" placeholder="Company" name="businessName" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.businessName} required />
+              </div>
+              <div className="input-field">
+                <label>Opiniion UID</label>
+                <input type="text" placeholder="UID" name="opiniionUID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.opiniionUID} required />
+              </div>
+              <div className="input-field">
+                <label>Opiniion Api Key</label>
+                <input type="text" placeholder="Opiniion Api Key" name="opiniionAPI" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.opiniionAPI} required />
+              </div>
+              <div className="input-field">
+                <label>Company URL</label>
+                <input type="text" placeholder="Company URL" name="curl" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.curl} required />
+              </div>
+              <div className="input-field">
+                <label>Company Email</label>
+                <input type="text" placeholder="Company Email" name="cemail" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.cemail} required />
+              </div>
+            </div>
+            <div>
+              <div className="input-field">
+                <label>Company Password</label>
+                <input type="text" placeholder="Company Password" name="companyPassword" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.companyPassword} required />
+              </div>
+              <div className="input-field">
+                <label>Company API</label>
+                <input type="text" placeholder="Company API" name="CoID" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.CoID} required />
+              </div>
+              <div className="input-field">
+                <label>Additional Data 1</label>
+                <input type="text" placeholder="More Data" name="moredata1" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.moredata1} required />
+              </div>
+              <div className="input-field">
+                <label>Additional Data 2</label>
+                <input type="text" placeholder="More Data" name="moredata2" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.moredata2} required />
+              </div>
+              <div className="input-field">
+                <label>Additional Data 3</label>
+                <input type="text" placeholder="More Data" name="moredata3" className="add-data-input" disabled={this.state.addingCompany} onChange={this.handleChange} value={this.state.moredata3} required />
+              </div>
+            </div>
+            <div className="button-container">
+              <button className="submit-button" onClick={this.onVolSubmit}>
+                Submit
+              </button>
+          <div className="table-container">
+          <table>
+                <tbody>
+                  <th>Name</th>
+                  <th>BSID</th>
+                  <th>Opiniion API Key</th>
+                </tbody>
+            {volusionData}
+            </table>
+          </div>
+
+            </div>
+          </div>
+        </div>
       </div>
-      </div>;
+    );
   }
 }

@@ -1,0 +1,1 @@
+select * from integration where integrationtype = 'MindBody';
