@@ -86,6 +86,9 @@ var resmanJob = new CronJob('*/30 * * * * 1-7', function() {
           }
         });
       })
+      .catch(error => {
+        console.log(error)
+      })
   }, 
 true);
 });
