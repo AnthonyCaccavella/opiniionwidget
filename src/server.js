@@ -69,7 +69,7 @@ var mindbodyJob = new CronJob('* */30 * * * 1-7', function() {
   })
 }, true);
 
-var resmanJob = new CronJob('* */30 * * * 1-7', function() {
+var resmanJob = new CronJob('* * */24 * * 1-7', function() {
   axios.get('/getresdata').then(res => {
     res.map((e,i) => {
       let bid1 = e.bid;
@@ -79,10 +79,23 @@ var resmanJob = new CronJob('* */30 * * * 1-7', function() {
       .then(response => {
         const data = response.data;
         data.map((e,i) => {
-          if (e.residents[i].IsMinor && e.residents[i].IsMinor == "True") {
+          let res = Residents[i];
+          let d1 = new Date();
+          let d2 = new Date(e.res.MoveInDate)
+          let d3 = new Date(e.res.LeaseEndDate)
+          function evaluateDate(date1, date2) {
+            return Math.ceil((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
+          }
+          if (e.res.IsMinor && e.res.IsMinor == "True") {
             return "It's a minor - not contacting!"
-          } else {
-            axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.firstname}&lastname=${e.lastname}&email=${e.email}&countrycode=+1&phone=${e.phone}`)
+          }else if(0 < evaluateDate(d1,d2) <= 7) {
+            axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.res.FirstName}&lastname=${e.res.LastName}&email=${e.res.Email}&countrycode=+1&phone=${e.res.MobilePhone}&q=1`)
+          } 
+          // else if(-7 < evaluateDate(d1, d3) <= 0) {
+          //   axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.res.FirstName}&lastname=${e.res.LastName}&email=${e.res.Email}&countrycode=+1&phone=${e.res.MobilePhone}&q=2`)
+          // } 
+          else {
+            return("done")
           }
         });
       })
@@ -92,8 +105,31 @@ var resmanJob = new CronJob('* */30 * * * 1-7', function() {
   }, true);
 });
 
+var resmanMaintJob = new CronJob('* * */24 * * 1-7', function() {
+  axios.get('/getresdata').then(res => {
+    res.map((e,i) => {
+      let bid1 = e.bid;
+      let apikey1 = e.apikey;
+      let date1 = new Date();
+      let date2 = new Date();
+      date2.setDate(date2.getDate() - 7);
+        axios.post(`https://api.myresman.com/Events/GetCompletedWorkOrders?IntegrationPartnerID=${e.ipid}&ApiKey=${e.api}&AccountID=${e.datapoint1}&PropertyID=${e.pid}&StartDtate=${date2}&EndDate=${date1}`)
+      })
+      .then(response => {
+        const data = response.data;
+        data.map((e,i) => {
+          let res = WorkOrders[i];
+            axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.res.FirstName}&lastname=${e.res.LastName}&email=${e.res.Email}&countrycode=+1&phone=${e.res.MobilePhone}&q=3`)          
+        });
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }, true);
+});
+
 var volusionJob = new CronJob('* */30 * * * 1-7', function() {
-  axios.get('/getmbdata').then(res => {
+  axios.get('/getvoldata').then(res => {
     res.map((e,i) => {
       let volbid = e.bid;
       let volapi = e.apikey;
