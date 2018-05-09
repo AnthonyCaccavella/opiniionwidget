@@ -1,1 +1,1 @@
-select * from integration where integrationtype = 'Resman';
+select name, bid, apikey, ipid, api, pid, datapoint1 from integration where integrationtype = 'Resman';

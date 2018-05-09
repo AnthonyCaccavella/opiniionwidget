@@ -51,17 +51,18 @@ form {
     cursor: pointer;
 }
 
-.clear-button {
+.show-hide-button {
     padding: 10px 20px 10px 20px;
     background: orange;
-    color: white;
+    color: black;
+    font-weight: 800;
     border: none;  
     cursor: pointer;
 }
 
 table {
     border: .5px solid black;
-    width: 75%;
+    min-width: 75%;
     margin-top: 20px;
 }
 

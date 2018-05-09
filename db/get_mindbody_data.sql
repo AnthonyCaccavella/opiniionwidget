@@ -1,1 +1,1 @@
-select * from integration where integrationtype = 'MindBody';
+select name,bid,apikey,sourcename,sourcepass,siteid,userpassword,username,locationid from integration where integrationtype = 'MindBody';

@@ -1,1 +1,1 @@
-select * from integration where integrationtype = 'Volusion';
+select name, bid, apikey, sourcepass, datapoint1, datapoint2, datapoint3, datapoint4, datapoint5, datapoint6 from integration where integrationtype = 'Volusion';
