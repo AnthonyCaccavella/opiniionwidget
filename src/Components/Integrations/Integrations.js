@@ -64,7 +64,12 @@ export default class Integrations extends Component {
     //     let bid1 = e.bid;
     //     // eslint-disable-next-line
     //     let apikey1 = e.apikey;
-          axios.post(`https://api.myresman.com/Leasing/GetCurrentResidents?IntegrationPartnerID=opiniion&ApiKey=AAAAB3NzaC1yc2E&AccountID=800&PropertyID=89aa1c41-0212-495b-8e58-1bc60f8de733`)
+          axios.post(`https://api.myresman.com/Leasing/GetCurrentResidents?IntegrationPartnerID=opiniion&ApiKey=AAAAB3NzaC1yc2E&AccountID=800&PropertyID=89aa1c41-0212-495b-8e58-1bc60f8de733`, {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        })
         // })
         .then(response => {
           const data = response.data;
