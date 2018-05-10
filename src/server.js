@@ -10,7 +10,7 @@ let app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
 
 massive('postgres://tveurdjtqhlrqd:f04a05a4a1017d906318e43e386f5eed6da3a683d20365213f51f3e35d53dd81@ec2-54-225-96-191.compute-1.amazonaws.com:5432/demro0c23hossk?ssl=true').then(db => {
   app.set('db', db)
@@ -69,9 +69,9 @@ var mindbodyJob = new CronJob('* */30 * * * 1-7', function() {
   })
 }, true);
 
-var resmanJob = new CronJob('* */30 * * *', function() {
+var resmanJob = new CronJob('* */1 * * *', function() {
   axios.get('/getresdata').then(res => {
-    const newResData = res.data;
+    const newResData = res;
     newResData.map((e,i) => {
       let bid1 = e[i].bid;
       let apikey1 = e[i].apikey;

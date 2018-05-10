@@ -54,20 +54,6 @@ export default class Integrations extends Component {
     });
   }
 
-  activate() {
-    // axios.get('/getresdata').then(res => {
-    //    const newResData = res.data;
-    //    console.log(newResData);
-    //    // eslint-disable-next-line
-    //   newResData.map((e,i) => {
-          axios.post('https://api.myresman.com/Leasing/GetCurrentResidents?IntegrationPartnerID=opiniion&ApiKey=AAAAB3NzaC1yc2E&AccountID=800&PropertyID=89aa1c41-0212-495b-8e58-1bc60f8de733')
-          .then(response => {
-            console.log(response.data);
-          })
-      //   })
-      // })
-  }
-
   handleChange(evt) {
     this.setState({ [evt.target.name]: evt.target.value });
   }
@@ -218,7 +204,6 @@ export default class Integrations extends Component {
       <div>
         <header>
           <h1>Integrations Middleware</h1>
-          <button onClick={this.activate}>Activate Call</button>
         </header>
         <div>
           <h2>New MindBody Integration</h2>
