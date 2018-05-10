@@ -8,8 +8,13 @@ const CronJob = require('cron').CronJob;
 let app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
-
+app.use(cors('*'));
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', "*");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+})
 
 massive('postgres://tveurdjtqhlrqd:f04a05a4a1017d906318e43e386f5eed6da3a683d20365213f51f3e35d53dd81@ec2-54-225-96-191.compute-1.amazonaws.com:5432/demro0c23hossk?ssl=true').then(db => {
   app.set('db', db)
@@ -19,7 +24,7 @@ massive('postgres://tveurdjtqhlrqd:f04a05a4a1017d906318e43e386f5eed6da3a683d2036
 
 var mindbodyJob = new CronJob('* */30 * * * 1-7', function() {
   axios.get('/getmbdata').then(res => { 
-    res.map((e,i) => {
+    res.data.map((e,i) => {
       let mindxmls = `<soapenv:envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns='http://clients.mindbodyonline.com/api/0_5_1'>
       <soapenv:header />
       <soapenv:body>
@@ -70,7 +75,7 @@ var mindbodyJob = new CronJob('* */30 * * * 1-7', function() {
 
 var resmanJob = new CronJob('* */1 * * *', function() {
   axios.get('/getresdata').then(res => {
-    const newResData = res;
+    const newResData = res.data;
     newResData.map((e,i) => {
       let bid1 = e[i].bid;
       let apikey1 = e[i].apikey;
@@ -109,7 +114,7 @@ var resmanJob = new CronJob('* */1 * * *', function() {
 
 var resmanMaintJob = new CronJob('* * */24 * * 1-7', function() {
   axios.get('/getresdata').then(res => {
-    res.map((e,i) => {
+    res.data.map((e,i) => {
       let bid1 = e.bid;
       let apikey1 = e.apikey;
       let date1 = new Date();
@@ -132,7 +137,7 @@ var resmanMaintJob = new CronJob('* * */24 * * 1-7', function() {
 
 var volusionJob = new CronJob('* */30 * * * 1-7', function() {
   axios.get('/getvoldata').then(res => {
-    res.map((e,i) => {
+    res.data.map((e,i) => {
       let volbid = e.bid;
       let volapi = e.apikey;
       axios.post(`http://${e.datapoint1}/net/WebService.aspx?Login=${e.datapoint2}&EncryptedPassword=${e.sourcepass}&API_Name=Generic\\Orders&SELECT_Columns=o.OrderID,o.OrderStatus,o.FirstName,o.LastName&
