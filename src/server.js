@@ -10,7 +10,7 @@ let app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 massive('postgres://tveurdjtqhlrqd:f04a05a4a1017d906318e43e386f5eed6da3a683d20365213f51f3e35d53dd81@ec2-54-225-96-191.compute-1.amazonaws.com:5432/demro0c23hossk?ssl=true').then(db => {
   app.set('db', db)
@@ -69,15 +69,17 @@ var mindbodyJob = new CronJob('* */30 * * * 1-7', function() {
   })
 }, true);
 
-var resmanJob = new CronJob('* * */24 * * 1-7', function() {
+var resmanJob = new CronJob('* */30 * * *', function() {
   axios.get('/getresdata').then(res => {
-    res.map((e,i) => {
-      let bid1 = e.bid;
-      let apikey1 = e.apikey;
+    const newResData = res.data;
+    newResData.map((e,i) => {
+      let bid1 = e[i].bid;
+      let apikey1 = e[i].apikey;
         axios.post(`https://api.myresman.com/Leasing/GetCurrentResidents?IntegrationPartnerID=${e.ipid}&ApiKey=${e.api}&AccountID=${e.datapoint1}&PropertyID=${e.pid}`)
       })
       .then(response => {
         const data = response.data;
+        console.log(data);
         data.map((e,i) => {
           let res = Residents[i];
           let d1 = new Date();
@@ -88,15 +90,16 @@ var resmanJob = new CronJob('* * */24 * * 1-7', function() {
           }
           if (e.res.IsMinor && e.res.IsMinor == "True") {
             return "It's a minor - not contacting!"
-          }else if(0 < evaluateDate(d1,d2) <= 7) {
+          } else {
+          // if(0 < evaluateDate(d1,d2) <= 7) 
             axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.res.FirstName}&lastname=${e.res.LastName}&email=${e.res.Email}&countrycode=+1&phone=${e.res.MobilePhone}&q=1`)
           } 
           // else if(-7 < evaluateDate(d1, d3) <= 0) {
           //   axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.res.FirstName}&lastname=${e.res.LastName}&email=${e.res.Email}&countrycode=+1&phone=${e.res.MobilePhone}&q=2`)
           // } 
-          else {
-            return("done")
-          }
+          // else {
+          //   return("done")
+          // }
         });
       })
       .catch(error => {
