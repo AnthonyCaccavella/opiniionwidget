@@ -5,7 +5,6 @@ const massive = require('massive');
 const axios = require('axios')
 const CronJob = require('cron').CronJob;
 
-
 let app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -154,7 +153,7 @@ var volusionJob = new CronJob('* */30 * * * 1-7', function() {
 //DB Methods:
 
 //Mindbody Get
-app.get('/getmbdata', (req, res) => {
+app.get('/#/getmbdata', (req, res) => {
   app.get('db').get_mindbody_data().then(response => {
     return res.send(response);
 }).catch( (error)=> {
