@@ -37,17 +37,32 @@ export default class Integrations extends Component {
   }
 
   componentDidMount() {
-    axios.get("/getmbdata").then(res => {
+    axios.get("/getmbdata", {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }).then(res => {
       this.setState({
         mbData: res.data
       });
     });
-    axios.get("/getvoldata").then(res => {
+    axios.get("/getvoldata", {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }).then(res => {
       this.setState({
         volData: res.data
       });
     });
-    axios.get("/getresdata").then(res => {
+    axios.get("/getresdata", {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }).then(res => {
       this.setState({
         resData: res.data
       });
