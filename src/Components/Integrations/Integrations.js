@@ -79,24 +79,69 @@ export default class Integrations extends Component {
     //     let bid1 = e.bid;
     //     // eslint-disable-next-line
     //     let apikey1 = e.apikey;
-    let resinfo = {
-      IntegrationPartnerID: 'opiniion',
-      ApiKey: 'AAAAB3NzaC1yc2E',
-      AccountID: 800,
-      PropertyID: '89aa1c41-0212-495b-8e58-1bc60f8de733'
-    }
-          axios.post(`https://api.myresman.com/Leasing/GetCurrentResidents?`, resinfo, {
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Content-Type': 'application/json'
-          }
-        })
-        // })
-        .then(response => {
-          const data = response.data;
-          console.log(data);
-        })
+    // let resinfo = {
+    //   IntegrationPartnerID: 'opiniion',
+    //   ApiKey: 'AAAAB3NzaC1yc2E',
+    //   AccountID: 800,
+    //   PropertyID: '89aa1c41-0212-495b-8e58-1bc60f8de733'
+    // }
+    //       axios.post(`https://api.myresman.com/Leasing/GetCurrentResidents?`, resinfo, {
+    //         headers: {
+    //           'Access-Control-Allow-Origin': '*',
+    //           'Content-Type': 'application/json'
+    //       }
+    //     })
+    //     })
+    //     .then(response => {
+    //       const data = response.data;
+    //       console.log(data);
+    //     })
       // })
+      let mindxmls = `<soapenv:envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns='http://api.mindbodyonline.com/0_5_1'>
+      <soapenv:header />
+      <soapenv:body>
+          <GetClients>
+              <request>
+                  <sourcecredentials>
+                  <sourcename>anthony.c@opiniion.com</sourcename>
+                  <password>Axeldaemar3+</password>
+                  <siteids> 
+                      <int>-99</int>
+                  </siteids>
+                  </sourcecredentials>
+                  <UserCredentials>
+                  <Username>Siteowner</Username>
+                  <Password>apitest1234</Password>
+                  <SiteIDs>
+                      <int>-99</int>
+                  </SiteIDs>
+                  <LocationID>0</LocationID>
+                  </UserCredentials>
+                  <XMLDetail>Small</XMLDetail>
+                  <PageSize>500</PageSize>
+                  <CurrentPageIndex>0</CurrentPageIndex>
+                  <SearchText></SearchText>
+              </request>
+          </GetClients>
+      </soapenv:Body />
+      </soapenv:Envelope />`;
+
+      axios
+      .post("http://api.mindbodyonline.com/0_5_1", mindxmls, {
+        headers: { "Content-Type": "text/xml", "Access-Control-Allow-Origin": "*" }
+      }).then(response => {
+        console.log(response);
+      })
+
+
+      // POST https://clients.mindbodyonline.com/api/0_5_1/SiteService.asmx HTTP/1.1
+      // Accept-Encoding: gzip,deflate
+      // Content-Type: text/xml;charset=UTF-8
+      // SOAPAction: "http://clients.mindbodyonline.com/api/0_5_1/GetLocations"
+      // Host: clients.mindbodyonline.com
+      // Content-Length: 795
+                
+    
   }
 
   handleChange(evt) {

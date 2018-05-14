@@ -140,8 +140,7 @@ var volusionJob = new CronJob('* */30 * * * 1-7', function() {
     res.data.map((e,i) => {
       let volbid = e.bid;
       let volapi = e.apikey;
-      axios.post(`http://${e.datapoint1}/net/WebService.aspx?Login=${e.datapoint2}&EncryptedPassword=${e.sourcepass}&API_Name=Generic\\Orders&SELECT_Columns=o.OrderID,o.OrderStatus,o.FirstName,o.LastName&
-      WHERE_Column=o.OrderStatus&WHERE_Value=New`).then(response => {
+      axios.post(`http://${e.datapoint1}/net/WebService.aspx?Login=${e.datapoint2}&EncryptedPassword=${e.sourcepass}&API_Name=Generic\\Orders&WHERE_Value=New`).then(response => {
         let voldata = response.data;
         voldata.map((e,i) => {
           axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${volbid}&api=${volapi}&firstname=${e.firstname}&lastname=${e.lastname}&email=${e.email}&countrycode=+1&phone=${e.phone}`)
