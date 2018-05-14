@@ -97,7 +97,7 @@ export default class Integrations extends Component {
     //       console.log(data);
     //     })
       // })
-      let mindxmls = `<soapenv:envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns='http://api.mindbodyonline.com/0_5_1'>
+      let mindxmls = `<soapenv:envelope xmlns:soapenv='https://schemas.xmlsoap.org/soap/envelope/' xmlns='https://api.mindbodyonline.com/0_5_1'>
       <soapenv:header />
       <soapenv:body>
           <GetClients>
@@ -127,7 +127,7 @@ export default class Integrations extends Component {
       </soapenv:Envelope />`;
 
       axios
-      .post("http://api.mindbodyonline.com/0_5_1", mindxmls, {
+      .post("https://api.mindbodyonline.com/0_5_1", mindxmls, {
         headers: { "Content-Type": "text/xml", "Access-Control-Allow-Origin": "*" }
       }).then(response => {
         console.log(response);
