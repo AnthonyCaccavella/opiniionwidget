@@ -82,7 +82,7 @@ export default class Integrations extends Component {
     let resinfo = {
       IntegrationPartnerID: 'opiniion',
       ApiKey: 'AAAAB3NzaC1yc2E',
-      AccountID: 800,
+      AccountID: '800',
       PropertyID: '89aa1c41-0212-495b-8e58-1bc60f8de733'
     }
           axios.post(`https://api.myresman.com/Leasing/GetCurrentResidents`, resinfo, {
