@@ -25,7 +25,7 @@ massive('postgres://tveurdjtqhlrqd:f04a05a4a1017d906318e43e386f5eed6da3a683d2036
 var mindbodyJob = new CronJob('* */30 * * * 1-7', function() {
   axios.get('/getmbdata').then(res => { 
     res.data.map((e,i) => {
-      let mindxmls = `<soapenv:envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns='http://clients.mindbodyonline.com/api/0_5_1'>
+      let mindxmls = `<soapenv:envelope xmlns:soapenv='https://schemas.xmlsoap.org/soap/envelope/' xmlns='https://clients.mindbodyonline.com/api/0_5_1'>
       <soapenv:header />
       <soapenv:body>
           <GetClients>
@@ -55,7 +55,7 @@ var mindbodyJob = new CronJob('* */30 * * * 1-7', function() {
       </soapenv:Envelope />`;
 
       axios
-      .post("http://clients.mindbodyonline.com/api/0_5_1", mindxmls, {
+      .post("https://clients.mindbodyonline.com/api/0_5_1", mindxmls, {
         headers: { "Content-Type": "text/xml" }
       })
       .then(response => {

@@ -128,7 +128,7 @@ export default class Integrations extends Component {
 
       axios
       .post("https://api.mindbodyonline.com/0_5_1", mindxmls, {
-        headers: { "Content-Type": "text/xml", "Access-Control-Allow-Origin": "*" }
+        headers: { "Content-Type": "text/xml" }
       }).then(response => {
         console.log(response);
       })
