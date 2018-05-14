@@ -85,7 +85,7 @@ export default class Integrations extends Component {
       AccountID: 800,
       PropertyID: '89aa1c41-0212-495b-8e58-1bc60f8de733'
     }
-          axios.post(`https://api.myresman.com/Leasing/GetCurrentResidents?`, resinfo)
+          axios.post(`https://api.myresman.com/Leasing/GetCurrentResidents`, resinfo)
         .then(response => {
           const data = response.data;
           console.log(data);
