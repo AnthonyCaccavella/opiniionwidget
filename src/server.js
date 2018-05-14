@@ -9,14 +9,16 @@ let app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors('*'));
-app.use(function(req, res, next) {
-  delete axios.defaults.headers.common['Access-Control-Request-Headers']
-  delete axios.defaults.headers.common['Access-Control-Request-Method']
-  delete axios.defaults.headers.common['Cache-Control']
-  delete axios.defaults.headers.common['Pragma']
-  next();
-})
-
+// app.use(function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', "*");
+//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type');
+//   next();
+// })
+// delete axios.defaults.headers.common['Access-Control-Request-Headers']
+// delete axios.defaults.headers.common['Access-Control-Request-Method']
+// delete axios.defaults.headers.common['Cache-Control']
+// delete axios.defaults.headers.common['Pragma']
 
 massive('postgres://tveurdjtqhlrqd:f04a05a4a1017d906318e43e386f5eed6da3a683d20365213f51f3e35d53dd81@ec2-54-225-96-191.compute-1.amazonaws.com:5432/demro0c23hossk?ssl=true').then(db => {
   app.set('db', db)
