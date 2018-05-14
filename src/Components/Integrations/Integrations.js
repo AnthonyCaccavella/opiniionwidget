@@ -70,15 +70,15 @@ export default class Integrations extends Component {
   }
 
   activate() {
-    axios.get('/getresdata').then(res => {
-       const newResData = res.data;
-       console.log(newResData);
-       // eslint-disable-next-line
-      newResData.map((e,i) => {
-        // eslint-disable-next-line
-        let bid1 = e.bid;
-        // eslint-disable-next-line
-        let apikey1 = e.apikey;
+    // axios.get('/getresdata').then(res => {
+    //    const newResData = res.data;
+    //    console.log(newResData);
+    //    // eslint-disable-next-line
+    //   newResData.map((e,i) => {
+    //     // eslint-disable-next-line
+    //     let bid1 = e.bid;
+    //     // eslint-disable-next-line
+    //     let apikey1 = e.apikey;
     let resinfo = {
       IntegrationPartnerID: 'opiniion',
       ApiKey: 'AAAAB3NzaC1yc2E',
@@ -90,12 +90,11 @@ export default class Integrations extends Component {
               'Content-Type': 'application/json'
           }
         })
-        })
         .then(response => {
           const data = response.data;
           console.log(data);
         })
-      })
+      
       // let mindxmls = `<soapenv:envelope xmlns:soapenv='https://schemas.xmlsoap.org/soap/envelope/' xmlns='https://api.mindbodyonline.com/0_5_1'>
       // <soapenv:header />
       // <soapenv:body>
