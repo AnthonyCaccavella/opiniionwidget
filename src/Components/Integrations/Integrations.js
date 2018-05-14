@@ -80,10 +80,10 @@ export default class Integrations extends Component {
     //     // eslint-disable-next-line
     //     let apikey1 = e.apikey;
     let resinfo = {
-      PropertyID: '89aa1c41-0212-495b-8e58-1bc60f8de733',
       IntegrationPartnerID: 'opiniion',
       ApiKey: 'AAAAB3NzaC1yc2E',
-      AccountID: '800'
+      AccountID: '800',
+      PropertyID: '89aa1c41-0212-495b-8e58-1bc60f8de733'
     }
           axios.post(`https://api.myresman.com/Leasing/GetCurrentResidents`, resinfo, {
             headers: {
@@ -93,6 +93,8 @@ export default class Integrations extends Component {
         .then(response => {
           const data = response.data;
           console.log(data);
+        }).catch(error =>  {
+          console.log(error);
         })
       
       // let mindxmls = `<soapenv:envelope xmlns:soapenv='https://schemas.xmlsoap.org/soap/envelope/' xmlns='https://api.mindbodyonline.com/0_5_1'>
