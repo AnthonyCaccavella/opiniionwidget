@@ -80,10 +80,10 @@ export default class Integrations extends Component {
     //     // eslint-disable-next-line
     //     let apikey1 = e.apikey;
     let resinfo = {
+      PropertyID: '89aa1c41-0212-495b-8e58-1bc60f8de733',
       IntegrationPartnerID: 'opiniion',
       ApiKey: 'AAAAB3NzaC1yc2E',
-      AccountID: '800',
-      PropertyID: '89aa1c41-0212-495b-8e58-1bc60f8de733'
+      AccountID: '800'
     }
           axios.post(`https://api.myresman.com/Leasing/GetCurrentResidents`, resinfo, {
             headers: {
