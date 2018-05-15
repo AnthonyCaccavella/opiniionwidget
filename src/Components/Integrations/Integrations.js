@@ -104,7 +104,7 @@ export default class Integrations extends Component {
               <request>
                   <sourcecredentials>
                   <sourcename>Opiniion</sourcename>
-                  <password>1gn63W/wwt7GMFn7sDmF3VHCvo4=</password>
+                  <password>iG1q9SZPUIGpwwWq0753gD/DUrU=</password>
                   <siteids> 
                       <int>-99</int>
                   </siteids>
