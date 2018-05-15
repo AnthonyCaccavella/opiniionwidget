@@ -97,37 +97,37 @@ export default class Integrations extends Component {
     //       console.log(error);
     //     })
       
-      let mindxmls = `<soapenv:envelope xmlns:soapenv='https://schemas.xmlsoap.org/soap/envelope/' xmlns='https://api.mindbodyonline.com/0_5_1'>
-      <soapenv:header />
-      <soapenv:body>
-          <GetClients>
-              <request>
-                  <sourcecredentials>
-                  <sourcename>Opiniion</sourcename>
-                  <password>iG1q9SZPUIGpwwWq0753gD/DUrU=</password>
-                  <siteids> 
-                      <int>-99</int>
-                  </siteids>
-                  </sourcecredentials>
-                  <UserCredentials>
+      let mindxmls = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://clients.mindbodyonline.com/api/0_5_1">
+      <soapenv:Header/>
+      <soapenv:Body>
+         <GetClients>
+            <Request>
+           <SourceCredentials>
+                  <SourceName>Opiniion</SourceName>
+                  <Password>iG1q9SZPUIGpwwWq0753gD/DUrU=</Password>
+                  <SiteIDs>
+                     <int>-99</int>
+                  </SiteIDs>
+               </SourceCredentials>
+               <UserCredentials>
                   <Username>Siteowner</Username>
                   <Password>apitest1234</Password>
                   <SiteIDs>
-                      <int>-99</int>
+                     <int>-99</int>
                   </SiteIDs>
                   <LocationID>0</LocationID>
-                  </UserCredentials>
-                  <XMLDetail>Small</XMLDetail>
-                  <PageSize>500</PageSize>
-                  <CurrentPageIndex>0</CurrentPageIndex>
-                  <SearchText></SearchText>
-              </request>
-          </GetClients>
-      </soapenv:Body />
-      </soapenv:Envelope />`;
+               </UserCredentials>
+               <XMLDetail>Full</XMLDetail>
+               <PageSize>1500</PageSize>
+               <CurrentPageIndex>0</CurrentPageIndex>
+               <SearchText></SearchText>
+            </Request>
+         </GetClients>
+      </soapenv:Body>
+   </soapenv:Envelope>`;
 
       axios
-      .post("https://api.mindbodyonline.com/0_5_1", mindxmls, {
+      .post("https://api.mindbodyonline.com/0_5_1/ClientService.asmx", mindxmls, {
         headers: { "Content-Type": "text/xml" }
       }).then(response => {
         console.log(response);
