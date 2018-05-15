@@ -127,7 +127,7 @@ export default class Integrations extends Component {
    </soapenv:Envelope>`;
 
       axios
-      .post("https://api.mindbodyonline.com/0_5_1/ClientService.asmx", mindxmls, {
+      .post("https://api.mindbodyonline.com/0_5_1/ClientService.asmx?wsdl", mindxmls, {
         headers: { "Content-Type": "text/xml" }
       }).then(response => {
         console.log(response);
