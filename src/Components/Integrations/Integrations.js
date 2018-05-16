@@ -71,68 +71,20 @@ export default class Integrations extends Component {
   }
 
   activate() {
-    // axios.get('/getresdata').then(res => {
-    //    const newResData = res.data;
-    //    console.log(newResData);
-    //    // eslint-disable-next-line
-    //   newResData.map((e,i) => {
-    //     // eslint-disable-next-line
-    //     let bid1 = e.bid;
-    //     // eslint-disable-next-line
-    //     let apikey1 = e.apikey;
-
-  //         axios.post('https://api.myresman.com/Leasing/GetCurrentResidents?IntegrationPartnerID=opiniion&APIKey=AAAAB3NzaC1yc2E&AccountID=800&PropertyID=89aa1c41-0212-495b-8e58-1bc60f8de733,', {
-  //           IntegrationPartnerID: 'opiniion',
-  //   ApiKey: 'AAAAB3NzaC1yc2E',
-  //   AccountID: '800',
-  //   PropertyID: '89aa1c41-0212-495b-8e58-1bc60f8de733'
-  // })
-  // .then(function (response) {
-  //   console.log(response);
-  // })
-  // .catch(function (error) {
-  //   console.log(error);
-  // });
-  // axios({
-  //   method: 'post',
-  //   url: 'https://api.myresman.com/Leasing/GetCurrentResidents',
-  //   data: {
-  //     'IntegrationPartnerID': 'opiniion',
-  //     'ApiKey': 'AAAAB3NzaC1yc2E',
-  //     'AccountID': 800,
-  //     'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733'
-  //   },
-  //   headers: {
-  //     "Content-Type":"application/x-www-form-urlencoded" 
-  //   }
-  // });
-
   const data = { 'IntegrationPartnerID': 'opiniion',
   'ApiKey': 'AAAAB3NzaC1yc2E',
   'AccountID': 800,
   'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733' };
-const options = {
-  method: 'POST',
-  headers: { 'content-type': 'application/x-www-form-urlencoded' },
-  data: qs.stringify(data),
-  url: 'https://api.myresman.com/Leasing/GetCurrentResidents',
-};
-axios(options).then((response) => {
-  console.log(response);
-})
-          
-          // , {
-          //   headers: {
-          //     "Content-Type":'application/x-www-form-urlencoded' 
-          //   }
-          // }
-        
-        // .then(response => {
-        //   const data = response.data;
-        //   console.log(data);
-        // }).catch(error =>  {
-        //   console.log(error);
-        // })
+    const options = {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+      url: 'https://api.myresman.com/Leasing/GetCurrentResidents',
+    };
+    axios(options).then(function (error, response) {
+      console.log(response);
+      console.log(error);
+    })
       
   //     let mindxmls = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://clients.mindbodyonline.com/api/0_5_1">
   //     <soapenv:Header/>
