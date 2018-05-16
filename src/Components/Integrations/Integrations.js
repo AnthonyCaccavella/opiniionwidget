@@ -81,11 +81,11 @@ export default class Integrations extends Component {
     //     let apikey1 = e.apikey;
 
           axios.post('https://api.myresman.com/Leasing/GetCurrentResidents?IntegrationPartnerID=opiniion&APIKey=AAAAB3NzaC1yc2E&AccountID=800&PropertyID=89aa1c41-0212-495b-8e58-1bc60f8de733'
-          , {
-            headers: {
-              "Content-Type":'application/x-www-form-urlencoded' 
-            }
-          }
+          // , {
+          //   headers: {
+          //     "Content-Type":'application/x-www-form-urlencoded' 
+          //   }
+          // }
         )
         .then(response => {
           const data = response.data;
