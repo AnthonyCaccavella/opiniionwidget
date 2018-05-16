@@ -79,59 +79,56 @@ export default class Integrations extends Component {
     //     let bid1 = e.bid;
     //     // eslint-disable-next-line
     //     let apikey1 = e.apikey;
-    // let resinfo = {
-    //   IntegrationPartnerID: 'opiniion',
-    //   ApiKey: 'AAAAB3NzaC1yc2E',
-    //   AccountID: '800',
-    //   PropertyID: '89aa1c41-0212-495b-8e58-1bc60f8de733'
-    // }
-    //       axios.post(`https://api.myresman.com/Leasing/GetCurrentResidents`, resinfo, {
-    //         headers: {
-    //           "Content-Type":'application/x-www-form-urlencoded' 
-    //         }
-    //       })
-    //     .then(response => {
-    //       const data = response.data;
-    //       console.log(data);
-    //     }).catch(error =>  {
-    //       console.log(error);
-    //     })
-      
-      let mindxmls = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://clients.mindbodyonline.com/api/0_5_1">
-      <soapenv:Header/>
-      <soapenv:Body>
-         <GetClients>
-            <Request>
-           <SourceCredentials>
-                  <SourceName>Opiniion</SourceName>
-                  <Password>iG1q9SZPUIGpwwWq0753gD/DUrU=</Password>
-                  <SiteIDs>
-                     <int>-99</int>
-                  </SiteIDs>
-               </SourceCredentials>
-               <UserCredentials>
-                  <Username>Siteowner</Username>
-                  <Password>apitest1234</Password>
-                  <SiteIDs>
-                     <int>-99</int>
-                  </SiteIDs>
-                  <LocationID>0</LocationID>
-               </UserCredentials>
-               <XMLDetail>Full</XMLDetail>
-               <PageSize>1500</PageSize>
-               <CurrentPageIndex>0</CurrentPageIndex>
-               <SearchText></SearchText>
-            </Request>
-         </GetClients>
-      </soapenv:Body>
-   </soapenv:Envelope>`;
 
-      axios
-      .post("https://api.mindbodyonline.com/0_5_1/ClientService.asmx?wsdl", mindxmls, {
-        headers: { "Content-Type": "text/xml" }
-      }).then(response => {
-        console.log(response);
-      })
+          axios.post('https://api.myresman.com/Leasing/GetCurrentResidents?IntegrationPartnerID=opiniion&APIKey=AAAAB3NzaC1yc2E&AccountID=800&PropertyID=89aa1c41-0212-495b-8e58-1bc60f8de733'
+          // , {
+          //   headers: {
+          //     "Content-Type":'application/x-www-form-urlencoded' 
+          //   }
+          // }
+        )
+        .then(response => {
+          const data = response.data;
+          console.log(data);
+        }).catch(error =>  {
+          console.log(error);
+        })
+      
+  //     let mindxmls = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://clients.mindbodyonline.com/api/0_5_1">
+  //     <soapenv:Header/>
+  //     <soapenv:Body>
+  //        <GetClients>
+  //           <Request>
+  //          <SourceCredentials>
+  //                 <SourceName>Opiniion</SourceName>
+  //                 <Password>iG1q9SZPUIGpwwWq0753gD/DUrU=</Password>
+  //                 <SiteIDs>
+  //                    <int>-99</int>
+  //                 </SiteIDs>
+  //              </SourceCredentials>
+  //              <UserCredentials>
+  //                 <Username>Siteowner</Username>
+  //                 <Password>apitest1234</Password>
+  //                 <SiteIDs>
+  //                    <int>-99</int>
+  //                 </SiteIDs>
+  //                 <LocationID>0</LocationID>
+  //              </UserCredentials>
+  //              <XMLDetail>Full</XMLDetail>
+  //              <PageSize>1500</PageSize>
+  //              <CurrentPageIndex>0</CurrentPageIndex>
+  //              <SearchText></SearchText>
+  //           </Request>
+  //        </GetClients>
+  //     </soapenv:Body>
+  //  </soapenv:Envelope>`;
+
+  //     axios
+  //     .post("https://api.mindbodyonline.com/0_5_1/ClientService.asmx?wsdl", mindxmls, {
+  //       headers: { "Content-Type": "text/xml" }
+  //     }).then(response => {
+  //       console.log(response);
+  //     })
 
                 
     
