@@ -80,19 +80,21 @@ export default class Integrations extends Component {
     //     // eslint-disable-next-line
     //     let apikey1 = e.apikey;
 
-          axios.post('https://api.myresman.com/Leasing/GetCurrentResidents?IntegrationPartnerID=opiniion&APIKey=AAAAB3NzaC1yc2E&AccountID=800&PropertyID=89aa1c41-0212-495b-8e58-1bc60f8de733'
+          axios.post('https://api.myresman.com/Leasing/GetCurrentResidents?IntegrationPartnerID=opiniion&APIKey=AAAAB3NzaC1yc2E&AccountID=800&PropertyID=89aa1c41-0212-495b-8e58-1bc60f8de733,', (req, res) => {
+              console.log(res);
+          }
           // , {
           //   headers: {
           //     "Content-Type":'application/x-www-form-urlencoded' 
           //   }
           // }
         )
-        .then(response => {
-          const data = response.data;
-          console.log(data);
-        }).catch(error =>  {
-          console.log(error);
-        })
+        // .then(response => {
+        //   const data = response.data;
+        //   console.log(data);
+        // }).catch(error =>  {
+        //   console.log(error);
+        // })
       
   //     let mindxmls = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://clients.mindbodyonline.com/api/0_5_1">
   //     <soapenv:Header/>
