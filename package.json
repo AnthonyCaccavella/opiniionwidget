@@ -1,7 +1,6 @@
 {
   "name": "opiniionreactwidget",
   "main": "index.js",
-  
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,6 +11,7 @@
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "massive": "^4.7.2",
+    "qs": "^6.5.2",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-google-autocomplete": "^1.0.15",

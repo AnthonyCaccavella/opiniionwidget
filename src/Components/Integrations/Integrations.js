@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./Integrations.css";
+import qs from 'qs';
 
 export default class Integrations extends Component {
   constructor() {
@@ -92,19 +93,31 @@ export default class Integrations extends Component {
   // .catch(function (error) {
   //   console.log(error);
   // });
-  axios({
-    method: 'post',
-    url: 'https://api.myresman.com/Leasing/GetCurrentResidents',
-    data: {
-      IntegrationPartnerID: 'opiniion',
-      ApiKey: 'AAAAB3NzaC1yc2E',
-      AccountID: 800,
-      PropertyID: '89aa1c41-0212-495b-8e58-1bc60f8de733'
-    },
-    headers: {
-      "Content-Type":"application/x-www-form-urlencoded" 
-    }
-  });
+  // axios({
+  //   method: 'post',
+  //   url: 'https://api.myresman.com/Leasing/GetCurrentResidents',
+  //   data: {
+  //     'IntegrationPartnerID': 'opiniion',
+  //     'ApiKey': 'AAAAB3NzaC1yc2E',
+  //     'AccountID': 800,
+  //     'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733'
+  //   },
+  //   headers: {
+  //     "Content-Type":"application/x-www-form-urlencoded" 
+  //   }
+  // });
+
+  const data = { 'IntegrationPartnerID': 'opiniion',
+  'ApiKey': 'AAAAB3NzaC1yc2E',
+  'AccountID': 800,
+  'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733' };
+const options = {
+  method: 'POST',
+  headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  data: qs.stringify(data),
+  url: 'https://api.myresman.com/Leasing/GetCurrentResidents',
+};
+axios(options);
           
           // , {
           //   headers: {
