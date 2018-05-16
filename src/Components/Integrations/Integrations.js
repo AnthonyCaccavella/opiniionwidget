@@ -117,7 +117,9 @@ const options = {
   data: qs.stringify(data),
   url: 'https://api.myresman.com/Leasing/GetCurrentResidents',
 };
-axios(options);
+axios(options).then((response) => {
+  console.log(response);
+})
           
           // , {
           //   headers: {
