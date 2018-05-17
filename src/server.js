@@ -173,29 +173,51 @@ app.post("/api/integrations/smartwaiver", (req, res) => {
 
 
   app.get('/testing', (req, res) => {
-    axios.get('/getresdata').then(res => {
-      const newResData = res.data;
+    app.get('db').get_resman_data().then(response => {
+      let newResData = response;
       newResData.map((e,i) => {
-        let bid1 = e[i].bid;
-        let apikey1 = e[i].apikey;
-      })
-    }).then(response => {
-      axios.post('https://api.myresman.com/Leasing/GetCurrentResidents', qs.stringify({ 
-        'IntegrationPartnerID': 'opiniion',
-        'ApiKey': 'AAAAB3NzaC1yc2E',
-        'AccountID': 800,
-        'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733' }))
-      .then(response => {
-        const data = response.data;
-        console.log(data);
+        const bidRes = e.bid;
+        const apikeyRes = e.apikey;
+        const ipidRes = e.ipid;
+        const apiRes = e.api;
+        const pidRes = e.pid;
+        const aidRes = e.datapoint1;
+        axios.post('https://api.myresman.com/Leasing/GetCurrentResidents', qs.stringify({
+              'IntegrationPartnerID': ipidRes,
+              'ApiKey': apiRes,
+              'AccountID': aidRes,
+              'PropertyID': pidRes }))
+            .then((response) => {
+              const data = response.data.Residents;
+              console.log(data);
+              data.map((e,i) => {
+                let d1 = new Date();
+                let d2 = new Date(e.MoveInDate)
+                let d3 = new Date(e.LeaseEndDate)
+                let isMinorRes = e.isMinor;
+                function evaluateDate(date1, date2) {
+                  return Math.ceil((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
+                }
+                if (isMinorRes && isMinorRes == "True") {
+                  return "It's a minor - not contacting!"
+                } else {
+                // if(0 < evaluateDate(d1,d2) <= 7) 
+                  axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${e.MobilePhone}&q=1`)
+                } 
+              })
+        })
+        // .catch(error => console.log(error))
       })
     })
   })
+  
+
 
 
   var resmanJob = new CronJob('* */1 * * *', function() {
     axios.get('/getresdata').then(res => {
       const newResData = res.data;
+      console.log(newResData);
       newResData.map((e,i) => {
         let bid1 = e[i].bid;
         let apikey1 = e[i].apikey;

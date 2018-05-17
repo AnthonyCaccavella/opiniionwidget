@@ -48,11 +48,11 @@ export default class Integrations extends Component {
         volData: res.data
       });
     });
-    axios.get("/getresdata").then(res => {
-      this.setState({
-        resData: res.data
-      });
-    });
+    // axios.get("/getresdata").then(res => {
+    //   this.setState({
+    //     resData: res.data
+    //   });
+    // });
   }
 
   activate() {
