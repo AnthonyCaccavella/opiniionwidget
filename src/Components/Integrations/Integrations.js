@@ -56,18 +56,11 @@ export default class Integrations extends Component {
   }
 
   activate() {
-    const data = { 
+    axios.post('https://api.myresman.com/Leasing/GetCurrentResidents', qs.stringify({ 
       'IntegrationPartnerID': 'opiniion',
       'ApiKey': 'AAAAB3NzaC1yc2E',
       'AccountID': 800,
-      'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733' };
-    const options = {
-        method: 'POST',
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: qs.stringify(data),
-        url: 'https://api.myresman.com/Leasing/GetCurrentResidents',
-      };
-    axios(options)
+      'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733' }))
     .then(response => {
       const data = response.json();
       console.log(data);
