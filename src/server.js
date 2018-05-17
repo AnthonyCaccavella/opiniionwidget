@@ -4,6 +4,7 @@ const cors = require("cors");
 const massive = require('massive');
 const axios = require('axios')
 const CronJob = require('cron').CronJob;
+const qs = require('qs');
 
 let app = express();
 app.use(bodyParser.json());
@@ -168,6 +169,30 @@ app.post("/api/integrations/smartwaiver", (req, res) => {
     })
   }, true);
   
+
+
+
+  app.get('/testing', (req, res) => {
+    axios.get('/getresdata').then(res => {
+      const newResData = res.data;
+      newResData.map((e,i) => {
+        let bid1 = e[i].bid;
+        let apikey1 = e[i].apikey;
+      })
+    }).then(response => {
+      axios.post('https://api.myresman.com/Leasing/GetCurrentResidents', qs.stringify({ 
+        'IntegrationPartnerID': 'opiniion',
+        'ApiKey': 'AAAAB3NzaC1yc2E',
+        'AccountID': 800,
+        'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733' }))
+      .then(response => {
+        const data = response.data;
+        console.log(data);
+      })
+    })
+  })
+
+
   var resmanJob = new CronJob('* */1 * * *', function() {
     axios.get('/getresdata').then(res => {
       const newResData = res.data;

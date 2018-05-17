@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./Integrations.css";
-import qs from 'qs';
+
 
 export default class Integrations extends Component {
   constructor() {
@@ -56,15 +56,11 @@ export default class Integrations extends Component {
   }
 
   activate() {
-    axios.post('https://api.myresman.com/Leasing/GetCurrentResidents', qs.stringify({ 
-      'IntegrationPartnerID': 'opiniion',
-      'ApiKey': 'AAAAB3NzaC1yc2E',
-      'AccountID': 800,
-      'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733' }))
-    .then(response => {
-      const data = response.json();
-      console.log(data);
+    axios.get('/testing').then(res => {
+      console.log(res.data);
     })
+
+
   }
 
   handleChange(evt) {
