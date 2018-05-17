@@ -71,20 +71,27 @@ export default class Integrations extends Component {
   }
 
   activate() {
-  const data = { 'IntegrationPartnerID': 'opiniion',
-  'ApiKey': 'AAAAB3NzaC1yc2E',
-  'AccountID': 800,
-  'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733' };
-    const options = {
-      method: 'POST',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: qs.stringify(data),
-      url: 'https://api.myresman.com/Leasing/GetCurrentResidents',
-    };
-    axios(options).then(function (error, response) {
-      console.log(response);
-      console.log(error);
-    })
+    axios.post('/testresjob')
+
+  // const data = { 'IntegrationPartnerID': 'opiniion',
+  // 'ApiKey': 'AAAAB3NzaC1yc2E',
+  // 'AccountID': 800,
+  // 'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733' };
+  //   const options = {
+  //     method: 'POST',
+  //     headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  //     data: qs.stringify(data),
+  //     url: 'https://api.myresman.com/Leasing/GetCurrentResidents',
+  //   };
+  //   axios(options).then(function (error, response) {
+  //     console.log(response);
+  //     console.log(error);
+  //     this.setState({
+  //       mindBodyDataResult: response.data
+  //     })
+  //   }).catch(error => {
+  //     console.log(error);
+  //   })
       
   //     let mindxmls = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://clients.mindbodyonline.com/api/0_5_1">
   //     <soapenv:Header/>
@@ -274,6 +281,7 @@ export default class Integrations extends Component {
 
     return (
       <div>
+        {this.state.mindBodyDataResult}
         <header>
           <h1>Integrations Middleware</h1>
           <button onClick={this.activate}>Activate Call</button>

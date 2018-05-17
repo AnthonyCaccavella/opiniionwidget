@@ -24,6 +24,101 @@ massive('postgres://tveurdjtqhlrqd:f04a05a4a1017d906318e43e386f5eed6da3a683d2036
   app.set('db', db)
 })
 
+
+//DB Methods:
+
+//Mindbody Get
+app.get('/getmbdata', (req, res) => {
+  app.get('db').get_mindbody_data().then(response => {
+    return res.send(response);
+  }).catch( (error)=> {
+    console.log(error)
+  })
+})
+
+app.get('/getvoldata', (req, res) => {
+  app.get('db').get_volusion_data().then(response => {
+    return res.send(response);
+  }).catch( (error)=> {
+    console.log(error)
+  })
+})
+
+app.get('/getresdata', (req, res) => {
+  app.get('db').get_resman_data().then(response => {
+    return res.send(response);
+  }).catch( (error)=> {
+    console.log(error)
+  })
+})
+
+app.post('/postmbdata', (req, res) => {
+  app.get('db').post_mindbody_data([req.body.businessName, req.body.opiniionUID, req.body.opiniionAPI, req.body.sourceName, req.body.sourcePassword, req.body.siteID, req.body.userName, req.body.userPassword, req.body.locationID, req.body.inttype ])
+  .then((response) => {
+    return res.send(response);
+  }).catch( (error)=> {
+    console.log(error)
+  })
+})
+
+app.post('/postvoldata', (req, res) => {
+  app.get('db').post_volusion_data([req.body.businessName, req.body.opiniionUID, req.body.opiniionAPI, req.body.curl, req.body.cemail, req.body.companyPassword, req.body.CoID, req.body.moredata1, req.body.moredata2, req.body.moredata3, req.body.inttype])
+  .then((response) => {
+    return res.send(response);
+  })
+})
+
+app.post('/postresdata', (req, res) => {
+  app.get('db').post_resman_data([req.body.businessName, req.body.opiniionUID, req.body.opiniionAPI, req.body.ipID, req.body.api, req.body.aid, req.body.pid, req.body.inttype])
+  .then((response) => {
+    return res.send(response);
+  }).catch( (error)=> {
+    console.log(error)
+  })
+})
+
+
+app.post("/api/integrations/smartwaiver", (req, res) => {
+  // res.send("test " + req.body)
+  let uniqueid = req.body.unique_id;
+  let credential = req.body.credential;
+  let event = req.body.event;
+  if (req.body.UID && req.body.APIKEY){
+    let UID = req.body.UID;
+    let APIKEY = req.body.APIKEY;
+  }
+  res.send("Created! " + uniqueid + " " + credential + " " + event).then(
+    axios
+    .get(
+      "https://api.smartwaiver.com/v4/waivers/" +
+      uniqueid +
+      "?pdf=false&sw-api-key=056eecb3218c7bbdf23c0335b81c47bc"
+    )
+    .then(response => {
+      var re = response.body;
+      var time = re.waiver.createdOn;
+      var email = re.waiver.email;
+      var ip = re.waiver.clientIP;
+      for (var i = 0; i < re.waiver.participants.length; i++) {
+        if(!re.waiver.participants[i].isMinor) {
+          var firstname = re.waiver.participants[i].firstName;
+          var lastname = re.waiver.participants[i].lastName;
+          var phone = re.waiver.participants[i].phone;
+          var isMinor = re.waiver.participants[i].isMinor;
+        } else {
+          return "Is a minor - not adding"
+        }
+      }
+    }).catch( (error)=> {
+      console.log(error)
+    })
+    .then(axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${UID}&api=${APIKEY}&firstname=${firstname}&lastname=${lastname}&email=${email}&countrycode=+1&phone=${phone}`))
+    .catch( (error)=> {
+      console.log(error)
+    })      
+  );
+});
+
 //Chron Job Setup
 
 var mindbodyJob = new CronJob('* */30 * * * 1-7', function() {
@@ -77,43 +172,55 @@ var mindbodyJob = new CronJob('* */30 * * * 1-7', function() {
   })
 }, true);
 
-var resmanJob = new CronJob('* */1 * * *', function() {
-  axios.get('/getresdata').then(res => {
-    const newResData = res.data;
-    newResData.map((e,i) => {
-      let bid1 = e[i].bid;
-      let apikey1 = e[i].apikey;
-        axios.post(`https://api.myresman.com/Leasing/GetCurrentResidents?IntegrationPartnerID=${e.ipid}&ApiKey=${e.api}&AccountID=${e.datapoint1}&PropertyID=${e.pid}`)
-      })
+
+app.get('/testresjob', (req, res) => {
+// var resmanJob = new CronJob('* */1 * * *', function() {
+//   axios.get('/getresdata').then(res => {
+//     const newResData = res.data;
+//     newResData.map((e,i) => {
+//       let bid1 = e[i].bid;
+//       let apikey1 = e[i].apikey;
+      const data = { 
+        'IntegrationPartnerID': 'opiniion',
+        'ApiKey': 'AAAAB3NzaC1yc2E',
+        'AccountID': 800,
+        'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733' };
+      const options = {
+          method: 'POST',
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
+          data: qs.stringify(data),
+          url: 'https://api.myresman.com/Leasing/GetCurrentResidents',
+        };
+      axios(options)
       .then(response => {
         const data = response.data;
         console.log(data);
-        data.map((e,i) => {
-          let res = Residents[i];
-          let d1 = new Date();
-          let d2 = new Date(e.res.MoveInDate)
-          let d3 = new Date(e.res.LeaseEndDate)
-          function evaluateDate(date1, date2) {
-            return Math.ceil((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
-          }
-          if (e.res.IsMinor && e.res.IsMinor == "True") {
-            return "It's a minor - not contacting!"
-          } else {
-          // if(0 < evaluateDate(d1,d2) <= 7) 
-            axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.res.FirstName}&lastname=${e.res.LastName}&email=${e.res.Email}&countrycode=+1&phone=${e.res.MobilePhone}&q=1`)
-          } 
+        // data.map((e,i) => {
+        //   let res = Residents[i];
+        //   let d1 = new Date();
+        //   let d2 = new Date(e.res.MoveInDate)
+        //   let d3 = new Date(e.res.LeaseEndDate)
+        //   function evaluateDate(date1, date2) {
+        //     return Math.ceil((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
+        //   }
+        //   if (e.res.IsMinor && e.res.IsMinor == "True") {
+        //     return "It's a minor - not contacting!"
+        //   } else {
+        //   // if(0 < evaluateDate(d1,d2) <= 7) 
+        //     axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.res.FirstName}&lastname=${e.res.LastName}&email=${e.res.Email}&countrycode=+1&phone=${e.res.MobilePhone}&q=1`)
+        //   } 
           // else if(-7 < evaluateDate(d1, d3) <= 0) {
           //   axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.res.FirstName}&lastname=${e.res.LastName}&email=${e.res.Email}&countrycode=+1&phone=${e.res.MobilePhone}&q=2`)
           // } 
           // else {
           //   return("done")
           // }
-        });
-      })
+        })
+      // })
       .catch(error => {
         console.log(error)
       })
-  }, true);
+  // }, true);
 });
 
 var resmanMaintJob = new CronJob('* * */24 * * 1-7', function() {
@@ -124,7 +231,21 @@ var resmanMaintJob = new CronJob('* * */24 * * 1-7', function() {
       let date1 = new Date();
       let date2 = new Date();
       date2.setDate(date2.getDate() - 7);
-        axios.post(`https://api.myresman.com/Events/GetCompletedWorkOrders?IntegrationPartnerID=${e.ipid}&ApiKey=${e.api}&AccountID=${e.datapoint1}&PropertyID=${e.pid}&StartDtate=${date2}&EndDate=${date1}`)
+        const data = { 
+          'IntegrationPartnerID': 'opiniion',
+          'ApiKey': 'AAAAB3NzaC1yc2E',
+          'AccountID': 800,
+          'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733',
+          'StartDate': date2,
+          'EndDate': date1
+        };
+        const options = {
+            method: 'POST',
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
+            data: qs.stringify(data),
+            url: 'https://api.myresman.com/Events/GetCompletedWorkOrders',
+          };
+        axios(options)
       })
       .then(response => {
         const data = response.data;
@@ -157,101 +278,6 @@ var volusionJob = new CronJob('* */30 * * * 1-7', function() {
 // var smartwaiverJob = new CronJob('*/30 * * * * 1-7', function() {
 
 // }, true);
-
-//DB Methods:
-
-//Mindbody Get
-app.get('/getmbdata', (req, res) => {
-  app.get('db').get_mindbody_data().then(response => {
-    return res.send(response);
-}).catch( (error)=> {
-  console.log(error)
-})
-})
-
-app.get('/getvoldata', (req, res) => {
-  app.get('db').get_volusion_data().then(response => {
-    return res.send(response);
-}).catch( (error)=> {
-  console.log(error)
-})
-})
-
-app.get('/getresdata', (req, res) => {
-  app.get('db').get_resman_data().then(response => {
-    return res.send(response);
-}).catch( (error)=> {
-  console.log(error)
-})
-})
-
-app.post('/postmbdata', (req, res) => {
-  app.get('db').post_mindbody_data([req.body.businessName, req.body.opiniionUID, req.body.opiniionAPI, req.body.sourceName, req.body.sourcePassword, req.body.siteID, req.body.userName, req.body.userPassword, req.body.locationID, req.body.inttype ])
-        .then((response) => {
-            return res.send(response);
-        }).catch( (error)=> {
-          console.log(error)
-        })
-})
-
-app.post('/postvoldata', (req, res) => {
-  app.get('db').post_volusion_data([req.body.businessName, req.body.opiniionUID, req.body.opiniionAPI, req.body.curl, req.body.cemail, req.body.companyPassword, req.body.CoID, req.body.moredata1, req.body.moredata2, req.body.moredata3, req.body.inttype])
-        .then((response) => {
-            return res.send(response);
-        })
-})
-
-app.post('/postresdata', (req, res) => {
-  app.get('db').post_resman_data([req.body.businessName, req.body.opiniionUID, req.body.opiniionAPI, req.body.ipID, req.body.api, req.body.aid, req.body.pid, req.body.inttype])
-        .then((response) => {
-            return res.send(response);
-        }).catch( (error)=> {
-          console.log(error)
-        })
-})
-
-
-app.post("/api/integrations/smartwaiver", (req, res) => {
-  // res.send("test " + req.body)
-  let uniqueid = req.body.unique_id;
-  let credential = req.body.credential;
-  let event = req.body.event;
-  if (req.body.UID && req.body.APIKEY){
-    let UID = req.body.UID;
-    let APIKEY = req.body.APIKEY;
-  }
-  res.send("Created! " + uniqueid + " " + credential + " " + event).then(
-    axios
-    .get(
-      "https://api.smartwaiver.com/v4/waivers/" +
-      uniqueid +
-      "?pdf=false&sw-api-key=056eecb3218c7bbdf23c0335b81c47bc"
-    )
-    .then(response => {
-      var re = response.body;
-      var time = re.waiver.createdOn;
-      var email = re.waiver.email;
-      var ip = re.waiver.clientIP;
-      for (var i = 0; i < re.waiver.participants.length; i++) {
-        if(!re.waiver.participants[i].isMinor) {
-          var firstname = re.waiver.participants[i].firstName;
-          var lastname = re.waiver.participants[i].lastName;
-          var phone = re.waiver.participants[i].phone;
-          var isMinor = re.waiver.participants[i].isMinor;
-        } else {
-          return "Is a minor - not adding"
-        }
-      }
-    }).catch( (error)=> {
-      console.log(error)
-    })
-    .then(axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${UID}&api=${APIKEY}&firstname=${firstname}&lastname=${lastname}&email=${email}&countrycode=+1&phone=${phone}`))
-    .catch( (error)=> {
-      console.log(error)
-    })      
-  );
-});
-
 
 // Internal server setup (localhost:XXXX)
 
