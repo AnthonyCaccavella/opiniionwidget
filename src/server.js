@@ -12,6 +12,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors('*'));
 
 
+app.use( express.static( `${__dirname}/../build` ) );
+
 massive('postgres://tveurdjtqhlrqd:f04a05a4a1017d906318e43e386f5eed6da3a683d20365213f51f3e35d53dd81@ec2-54-225-96-191.compute-1.amazonaws.com:5432/demro0c23hossk?ssl=true').then(db => {
   app.set('db', db)
 })
@@ -207,7 +209,7 @@ const resJob = new CronJob({
   start: false,
   timeZone: 'America/Los_Angeles'
 });
-// resJob.start();
+resJob.start();
 
 
 const resMaintJob = new CronJob({
@@ -253,7 +255,7 @@ const resMaintJob = new CronJob({
   start: false,
   timeZone: 'America/Los_Angeles'
 });
-// resMaintJob.start();
+resMaintJob.start();
 
   
   // var resmanMaintJob = new CronJob('* * */24 * * 1-7', function() {
