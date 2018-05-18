@@ -48,20 +48,20 @@ export default class Integrations extends Component {
         volData: res.data
       });
     });
-    // axios.get("/getresdata").then(res => {
-    //   this.setState({
-    //     resData: res.data
-    //   });
-    // });
+    axios.get("/getresdata").then(res => {
+      this.setState({
+        resData: res.data
+      });
+    });
   }
 
-  activate() {
-    axios.get('/testing').then(res => {
-      console.log(res.data);
-    })
+  // activate() {
+  //   axios.get('/testing').then(res => {
+  //     console.log(res.data);
+  //   })
 
 
-  }
+  // }
 
   handleChange(evt) {
     this.setState({ [evt.target.name]: evt.target.value });
@@ -214,7 +214,7 @@ export default class Integrations extends Component {
         {this.state.mindBodyDataResult}
         <header>
           <h1>Integrations Middleware</h1>
-          <button onClick={this.activate}>Activate Call</button>
+          {/* <button onClick={this.activate}>Activate Call</button> */}
         </header>
         <div>
           <h2>New MindBody Integration</h2>

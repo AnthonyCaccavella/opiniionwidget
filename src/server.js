@@ -169,10 +169,9 @@ app.post("/api/integrations/smartwaiver", (req, res) => {
     })
   }, true);
   
-
-
-
-  app.get('/testing', (req, res) => {
+const resJob = new CronJob({
+  cronTime: '*/30 * * * * 1-7',
+  onTick: function() {
     app.get('db').get_resman_data().then(response => {
       let newResData = response;
       newResData.map((e,i) => {
@@ -189,81 +188,35 @@ app.post("/api/integrations/smartwaiver", (req, res) => {
               'PropertyID': pidRes }))
             .then((response) => {
               const data = response.data.Residents;
-              console.log(data);
+              // console.log(data);
               data.map((e,i) => {
                 let d1 = new Date();
                 let d2 = new Date(e.MoveInDate)
                 let d3 = new Date(e.LeaseEndDate)
-                let isMinorRes = e.isMinor;
+                let isMinorRes = ('' +e.IsMinor);
+                const mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+                // let mobilePhone = e.MobilePhone.replace(/\D/g,'');
                 function evaluateDate(date1, date2) {
                   return Math.ceil((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
                 }
-                if (isMinorRes && isMinorRes == "True") {
-                  return "It's a minor - not contacting!"
+                if (isMinorRes && isMinorRes == "true") {
+                  console.log("It's a minor - not contacting!");
+                  null 
                 } else {
-                // if(0 < evaluateDate(d1,d2) <= 7) 
-                  axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${e.MobilePhone}&q=1`)
+                // if(0 < evaluateDate(d1,d2) <= 7)
+                  axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=1`)
                 } 
               })
         })
         // .catch(error => console.log(error))
       })
     })
-  })
-  
+  },
+  start: false,
+  timeZone: 'America/Los_Angeles'
+});
+// resJob.start();
 
-
-
-  var resmanJob = new CronJob('* */1 * * *', function() {
-    axios.get('/getresdata').then(res => {
-      const newResData = res.data;
-      console.log(newResData);
-      newResData.map((e,i) => {
-        let bid1 = e[i].bid;
-        let apikey1 = e[i].apikey;
-        const data = { 
-          'IntegrationPartnerID': 'opiniion',
-          'ApiKey': 'AAAAB3NzaC1yc2E',
-          'AccountID': 800,
-          'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733' };
-        const options = {
-            method: 'POST',
-            headers: { 'content-type': 'application/x-www-form-urlencoded' },
-            data: qs.stringify(data),
-            url: 'https://api.myresman.com/Leasing/GetCurrentResidents',
-          };
-        axios(options)
-        .then(response => {
-          const data = response.data;
-          console.log(data);
-          data.map((e,i) => {
-            let res = Residents[i];
-            let d1 = new Date();
-            let d2 = new Date(e.res.MoveInDate)
-            let d3 = new Date(e.res.LeaseEndDate)
-            function evaluateDate(date1, date2) {
-              return Math.ceil((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
-            }
-            if (e.res.IsMinor && e.res.IsMinor == "True") {
-              return "It's a minor - not contacting!"
-            } else {
-            // if(0 < evaluateDate(d1,d2) <= 7) 
-              axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.res.FirstName}&lastname=${e.res.LastName}&email=${e.res.Email}&countrycode=+1&phone=${e.res.MobilePhone}&q=1`)
-            } 
-            // else if(-7 < evaluateDate(d1, d3) <= 0) {
-            //   axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.res.FirstName}&lastname=${e.res.LastName}&email=${e.res.Email}&countrycode=+1&phone=${e.res.MobilePhone}&q=2`)
-            // } 
-            // else {
-            //   return("done")
-            // }
-          });
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }, true);
-  });
-})
   
   var resmanMaintJob = new CronJob('* * */24 * * 1-7', function() {
     axios.get('/getresdata').then(res => {
