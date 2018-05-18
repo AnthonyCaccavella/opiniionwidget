@@ -235,13 +235,11 @@ const resMaintJob = new CronJob({
               'StartDate': date2,
               'EndDate': date1 }))
             .then((response) => {
-              const data = response.data.Residents;
-              
+              const data = response.data.WorkOrders;             
               data.map((e,i) => {
                 let isMinorRes = ('' +e.IsMinor);
                 const mobile = (''  + e.MobilePhone).replace(/\D/g,'');
                 if (isMinorRes && isMinorRes == "true") {
-                  console.log("It's a minor - not contacting!");
                   null 
                 } else {
                   axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=3`)
