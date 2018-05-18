@@ -170,7 +170,7 @@ app.post("/api/integrations/smartwaiver", (req, res) => {
   }, true);
   
 const resJob = new CronJob({
-  cronTime: '*/30 * * * * 1-7',
+  cronTime: '* */2 * * * 1-7',
   onTick: function() {
     app.get('db').get_resman_data().then(response => {
       let newResData = response;
@@ -202,10 +202,11 @@ const resJob = new CronJob({
                 if (isMinorRes && isMinorRes == "true") {
                   console.log("It's a minor - not contacting!");
                   null 
+                } else if(0 < evaluateDate(d1,d2) <= 7){                
+                    axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=1`)
                 } else {
-                // if(0 < evaluateDate(d1,d2) <= 7)
-                  axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=1`)
-                } 
+                    axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}`)
+                }
               })
         })
         // .catch(error => console.log(error))
@@ -217,43 +218,89 @@ const resJob = new CronJob({
 });
 // resJob.start();
 
-  
-  var resmanMaintJob = new CronJob('* * */24 * * 1-7', function() {
-    axios.get('/getresdata').then(res => {
-      res.data.map((e,i) => {
-        let bid1 = e.bid;
-        let apikey1 = e.apikey;
-        let date1 = new Date();
-        let date2 = new Date();
+
+const resMaintJob = new CronJob({
+  cronTime: '* */2 * * * 1-7',
+  onTick: function() {
+    app.get('db').get_resman_data().then(response => {
+      let newResData = response;
+      newResData.map((e,i) => {
+        const bidRes = e.bid;
+        const apikeyRes = e.apikey;
+        const ipidRes = e.ipid;
+        const apiRes = e.api;
+        const pidRes = e.pid;
+        const aidRes = e.datapoint1;
+        const date1 = new Date();
+        const date2 = new Date();
         date2.setDate(date2.getDate() - 7);
-          const data = { 
-            'IntegrationPartnerID': 'opiniion',
-            'ApiKey': 'AAAAB3NzaC1yc2E',
-            'AccountID': 800,
-            'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733',
-            'StartDate': date2,
-            'EndDate': date1
-          };
-          const options = {
-              method: 'POST',
-              headers: { 'content-type': 'application/x-www-form-urlencoded' },
-              data: qs.stringify(data),
-              url: 'https://api.myresman.com/Events/GetCompletedWorkOrders',
-            };
-          axios(options)
+        axios.post('https://api.myresman.com/Events/GetCompletedWorkOrders', qs.stringify({
+              'IntegrationPartnerID': ipidRes,
+              'ApiKey': apiRes,
+              'AccountID': aidRes,
+              'PropertyID': pidRes,
+              'StartDate': date2,
+              'EndDate': date1 }))
+            .then((response) => {
+              const data = response.data.Residents;
+              // console.log(data);
+              data.map((e,i) => {
+                let isMinorRes = ('' +e.IsMinor);
+                const mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+                if (isMinorRes && isMinorRes == "true") {
+                  console.log("It's a minor - not contacting!");
+                  null 
+                } else {
+                  axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=3`)
+                } 
+              })
         })
-        .then(response => {
-          const data = response.data;
-          data.map((e,i) => {
-            let res = WorkOrders[i];
-              axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.res.FirstName}&lastname=${e.res.LastName}&email=${e.res.Email}&countrycode=+1&phone=${e.res.MobilePhone}&q=3`)          
-          });
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }, true);
-  });
+        // .catch(error => console.log(error))
+      })
+    })
+  },
+  start: false,
+  timeZone: 'America/Los_Angeles'
+});
+// resMaintJob.start();
+
+  
+  // var resmanMaintJob = new CronJob('* * */24 * * 1-7', function() {
+  //   axios.get('/getresdata').then(res => {
+  //     res.data.map((e,i) => {
+  //       let bid1 = e.bid;
+  //       let apikey1 = e.apikey;
+  //       let date1 = new Date();
+  //       let date2 = new Date();
+  //       date2.setDate(date2.getDate() - 7);
+  //         const data = { 
+  //           'IntegrationPartnerID': 'opiniion',
+  //           'ApiKey': 'AAAAB3NzaC1yc2E',
+  //           'AccountID': 800,
+  //           'PropertyID': '89aa1c41-0212-495b-8e58-1bc60f8de733',
+  //           'StartDate': date2,
+  //           'EndDate': date1
+  //         };
+  //         const options = {
+  //             method: 'POST',
+  //             headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  //             data: qs.stringify(data),
+  //             url: 'https://api.myresman.com/Events/GetCompletedWorkOrders',
+  //           };
+  //         axios(options)
+  //       })
+  //       .then(response => {
+  //         const data = response.data;
+  //         data.map((e,i) => {
+  //           let res = WorkOrders[i];
+  //             axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bid1}&api=${apikey1}&firstname=${e.res.FirstName}&lastname=${e.res.LastName}&email=${e.res.Email}&countrycode=+1&phone=${e.res.MobilePhone}&q=3`)          
+  //         });
+  //       })
+  //       .catch(error => {
+  //         console.log(error)
+  //       })
+  //   }, true);
+  // });
   
   var volusionJob = new CronJob('* */30 * * * 1-7', function() {
     axios.get('/getvoldata').then(res => {
