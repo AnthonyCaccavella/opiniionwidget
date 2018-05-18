@@ -108,59 +108,126 @@ app.post("/api/integrations/smartwaiver", (req, res) => {
   );
 });
 
+app.get('/pushRes', (req, res) => {
+app.get('db').get_resman_data().then(response => {
+  let newResData = response;
+  newResData.map((e,i) => {
+    const bidRes = e.bid;
+    const apikeyRes = e.apikey;
+    const ipidRes = e.ipid;
+    const apiRes = e.api;
+    const pidRes = e.pid;
+    const aidRes = e.datapoint1;
+    const status = "Former"
+    const d1 = new Date()
+    const d2 = new Date(d1.getTime() - 365*24*60*60*1000);
+    console.log(d2, d1);
+    axios.post('https://api.myresman.com/Events/GetMoveOuts', qs.stringify({
+          'IntegrationPartnerID': ipidRes,
+          'ApiKey': apiRes,
+          'AccountID': aidRes,
+          'PropertyID': pidRes,
+          'StartDate': d2,
+          'EndDate': d1,
+          'Statuses': status
+        }))
+        .then((response) => {
+          const data = response.data.MoveOuts;
+          data.map((e,i) => {
+            let isMinorRes = ('' +e.IsMinor);
+            const mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+            if (isMinorRes && isMinorRes == "true") {
+              console.log("Minor")
+              null 
+            } else {
+                axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=2`)
+            }
+          })
+    })
+    .catch(error => console.log(error))
+    axios.post('https://api.myresman.com/Leasing/GetCurrentResidents', qs.stringify({
+              'IntegrationPartnerID': ipidRes,
+              'ApiKey': apiRes,
+              'AccountID': aidRes,
+              'PropertyID': pidRes }))
+            .then((response) => {
+              const data = response.data.Residents;
+              data.map((e,i) => {
+                let d1 = new Date();
+                let d2 = new Date(e.MoveInDate)
+                let d3 = new Date(e.LeaseEndDate)
+                let isMinorRes = ('' +e.IsMinor);
+                const mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+                if (isMinorRes && isMinorRes == "true") {
+                  null 
+                } else {
+                    axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}`)
+                }
+              })
+        })              
+  })
+})
+
+})
   
   //Chron Job Setup
   
-  // var mindbodyJob = new CronJob('* */30 * * * 1-7', function() {
-  //   axios.get('/getmbdata').then(res => { 
-  //     res.data.map((e,i) => {
-  //       let mindxmls = `<soapenv:envelope xmlns:soapenv='https://schemas.xmlsoap.org/soap/envelope/' xmlns='https://clients.mindbodyonline.com/api/0_5_1'>
-  //       <soapenv:header />
-  //       <soapenv:body>
-  //           <GetClients>
-  //               <request>
-  //                   <sourcecredentials>
-  //                   <sourcename>${e.sourcename}</sourcename>
-  //                   <password>${e.sourcepass}</password>
-  //                   <siteids> 
-  //                       <int>${e.siteid}</int>
-  //                   </siteids>
-  //                   </sourcecredentials>
-  //                   <UserCredentials>
-  //                   <Username>${e.username}</Username>
-  //                   <Password>${e.userpassword}</Password>
-  //                   <SiteIDs>
-  //                       <int>${e.siteid}</int>
-  //                   </SiteIDs>
-  //                   <LocationID>${e.locationid}</LocationID>
-  //                   </UserCredentials>
-  //                   <XMLDetail>Small</XMLDetail>
-  //                   <PageSize>1500</PageSize>
-  //                   <CurrentPageIndex>0</CurrentPageIndex>
-  //                   <SearchText></SearchText>
-  //               </request>
-  //           </GetClients>
-  //       </soapenv:Body />
-  //       </soapenv:Envelope />`;
-  
-  //       axios
-  //       .post("https://clients.mindbodyonline.com/api/0_5_1", mindxmls, {
-  //         headers: { "Content-Type": "text/xml" }
-  //       })
-  //       .then(response => {
-  //         let re = response.getElementsByTagName('client')[i].childNodes;
-  //         if(re.MobilePhone) {
-  //           axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${e.bid}&api=${e.apikey}&firstname=${re['FirstName'].nodeValue}&lastname=${re[LastName].nodeValue}&email=${re[Email].nodeValue}&countrycode=+1&phone=${re[MobilePhone].nodeValue}`)
-  //         } else {
-  //           axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${e.bid}&api=${e.apikey}&firstname=${re['FirstName'].nodeValue}&lastname=${re[LastName].nodeValue}&email=${re[Email].nodeValue}&countrycode=+1&phone=${re[HomePhone].nodeValue}`)
-  //         }
-  //         })
-  //         .catch(err => {
-  //         console.log(err);
-  //       });
-  //     })
-  //   })
-  // }, true);
+  const mindbodyJob = new CronJob({
+    cronTime: '* * */24 * * 1-7',
+    onTick: function() {
+      app.get('db').get_resman_data().then(response => {
+        let newResData = response;
+        newResData.map((e,i) => {
+          let source = e.sourcename;
+          let sourcepassword = e.sourcepass;
+          let user = e.username;
+          let userpass = e.userpassword;
+          let site = e.siteid;
+          let location = e.locationid
+        })
+        let mindxmls = `<soapenv:envelope xmlns:soapenv='https://schemas.xmlsoap.org/soap/envelope/' xmlns='https://clients.mindbodyonline.com/api/0_5_1'>
+        <soapenv:header />
+        <soapenv:body>
+            <GetClients>
+                <request>
+                    <sourcecredentials>
+                    <sourcename>${source}</sourcename>
+                    <password>${sourcepassword}</password>
+                    <siteids> 
+                        <int>${site}</int>
+                    </siteids>
+                    </sourcecredentials>
+                    <UserCredentials>
+                    <Username>${user}</Username>
+                    <Password>${userpass}</Password>
+                    <SiteIDs>
+                        <int>${site}</int>
+                    </SiteIDs>
+                    <LocationID>${location}</LocationID>
+                    </UserCredentials>
+                    <XMLDetail>Small</XMLDetail>
+                    <PageSize>1500</PageSize>
+                    <CurrentPageIndex>0</CurrentPageIndex>
+                    <SearchText></SearchText>
+                </request>
+            </GetClients>
+        </soapenv:Body />
+        </soapenv:Envelope />`;
+        axios.post("https://clients.mindbodyonline.com/api/0_5_1", qs.stringify({mindxmls}))
+        .then(response => {
+          let re = response.getElementsByTagName('client')[i].childNodes;
+          if(re.MobilePhone) {
+            axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${e.bid}&api=${e.apikey}&firstname=${re['FirstName'].nodeValue}&lastname=${re[LastName].nodeValue}&email=${re[Email].nodeValue}&countrycode=+1&phone=${re[MobilePhone].nodeValue}`)
+          } else {
+            axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${e.bid}&api=${e.apikey}&firstname=${re['FirstName'].nodeValue}&lastname=${re[LastName].nodeValue}&email=${re[Email].nodeValue}&countrycode=+1&phone=${re[HomePhone].nodeValue}`)
+          }
+          })
+          .catch(err => {
+          console.log(err);
+          });
+        })
+    }
+});
   
 const resJob = new CronJob({
   cronTime: '* * */24 * * 1-7',

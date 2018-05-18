@@ -86,6 +86,7 @@ export default class Integrations extends Component {
             userPassword: "",
             locationID: ""
           });
+          // axios.post('/pushMB')
         });
       }
     );
@@ -93,26 +94,35 @@ export default class Integrations extends Component {
   }
 
   onResmanSubmit() {
-    this.setState(
-      {
-        inttype: "Resman"
-      },
-      function stateUpdateComplete() {
-        axios.post("/postresdata", this.state).then(res => {
-          console.log(res);
-          this.setState({
-            businessName: "",
-            opiniionUID: "",
-            opiniionAPI: "",
-            pid: "",
-            aid: "",
-            api: "",
-            ipID: ""
+    if(this.state.aid && this.state.pid) {
+
+      this.setState(
+        {
+          inttype: "Resman"
+        },
+        
+        function stateUpdateComplete() {
+          axios.post("/postresdata", this.state).then(res => {
+            console.log(res);
+            this.setState({
+              businessName: "",
+              opiniionUID: "",
+              opiniionAPI: "",
+              pid: "",
+              aid: "",
+              api: "",
+              ipID: ""
+            });
+            axios.get('/pushRes').then(response => {
+              console.log(response.data);
+            })
           });
-        });
-      }
-    );
-    alert("Integration Data Submitted!");
+        }
+      );
+      alert("Integration Data Submitted!");
+    } else {
+      alert("Please fill out all fields")
+    }
   }
 
   onVolSubmit() {
@@ -135,6 +145,7 @@ export default class Integrations extends Component {
             moredata2: "",
             moredata3: ""
           });
+           // axios.post('/pushVol')
         });
       }
     );
