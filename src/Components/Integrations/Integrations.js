@@ -421,7 +421,7 @@ export default class Integrations extends Component {
                 <label>Integration Partner ID</label>
                 <input
                   type="text"
-                  placeholder="Company"
+                  placeholder="IP ID"
                   name="ipID"
                   className="add-data-input"
                   disabled={this.state.addingCompany}
