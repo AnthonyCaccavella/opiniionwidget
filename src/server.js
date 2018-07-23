@@ -141,7 +141,13 @@ app.get('db').get_resman_data().then(response => {
               console.log("Minor")
               null 
             } else {
-                axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=2`)
+                axios.post(`https://app.opiniion.com/srv-api/customer/exist?uid=${bidRes}&api=${apikeyRes}&email=${e.email}&phone=${mobile}`).then( response => {
+                  if (response.exist == 'false') {
+                    axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=2`)
+                  } else {
+                    null;
+                  }
+                })
             }
           })
     })
@@ -162,9 +168,14 @@ app.get('db').get_resman_data().then(response => {
                 if (isMinorRes && isMinorRes == "true") {
                   null 
                 } else {
+                  axios.post(`https://app.opiniion.com/srv-api/customer/exist?uid=${bidRes}&api=${apikeyRes}&email=${e.email}&phone=${mobile}`).then( response => {
+                    if (response.exist == 'false') {
                     axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}`)
+                    } else {
+                      null;
+                    }
+                  })
                 }
-              })
         })              
   })
 })
@@ -276,9 +287,21 @@ const resJob = new CronJob({
                 if (isMinorRes && isMinorRes == "true") {
                   null 
                 } else if(0 < evaluateDate(d1,d2) <= 7){
+                  axios.post(`https://app.opiniion.com/srv-api/customer/exist?uid=${bidRes}&api=${apikeyRes}&email=${e.email}&phone=${mobile}`).then( response => {
+                    if (response.exist == 'false') {
                     axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=1`)
-                } else if(0 >= evaluateDate(d1,d3) >= -7){                
+                    } else {
+                      null;
+                    }
+                  })
+                } else if(0 >= evaluateDate(d1,d3) >= -7){    
+                  axios.post(`https://app.opiniion.com/srv-api/customer/exist?uid=${bidRes}&api=${apikeyRes}&email=${e.email}&phone=${mobile}`).then( response => {
+                    if (response.exist == 'false') {            
                     axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=2`)
+                    } else {
+                      null;                    
+                    }
+                  })
                 } else {
                     axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}`)
                 }
@@ -308,8 +331,8 @@ const resMaintJob = new CronJob({
         const aidRes = e.datapoint1;
         const date1 = new Date();
         const date2 = new Date();
-        date2.setDate(date2.getDate() - 7);
-        axios.post('pm2 lo', qs.stringify({
+        date2.setDate(date2.getDate() - 1);
+        axios.post('https://api.myresman.com/Events/GetCompletedWorkOrders', qs.stringify({
               'IntegrationPartnerID': ipidRes,
               'ApiKey': apiRes,
               'AccountID': aidRes,
