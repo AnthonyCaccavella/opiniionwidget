@@ -64,4 +64,74 @@ Not sure what else we're going to need to add on to this feature list.
   //     })
 
                 
-    
+      
+  // const mindbodyJob = new CronJob({
+  //   cronTime: '* * */24 * * 1-7',
+  //   onTick: function() {
+
+//   app.get('/testing', (req, res) => {
+
+//     app.get('db').get_mindbody_data().then(response => {
+//       let newMBData = response;
+//       // newMBData.map((e,i) => {
+//       // })
+//       let source = 'OpiniionInc'
+//       // e.sourcename;
+//       let sourcepassword = 'iG1q9SZPUIGpwwWq0753gD/DUrU='
+//       // e.sourcepass;
+//       let user = 'Siteowner'
+//       // e.username;
+//       let userpass = 'apitest1234'
+//       // e.userpassword;
+//       let site = '-99'
+//       // e.siteid;
+//       let location = '0'
+//       // e.locationid
+//       let mindxmls = `<soapenv:Envelope xmlns:soapenv='https://schemas.xmlsoap.org/soap/envelope/' xmlns:web='https://api.mindbodyonline.com/api/0_5_1'>\
+//       <soapenv:Header/>\
+//       <soapenv:Body>\
+//       <GetClients>\
+//       <Request>\
+//       <SourceCredentials>\
+//       <SourceName>${source}</SourceName>\
+//       <password>${sourcepassword}</password>\
+//       <SiteIDs>\
+//       <int>${site}</int>\
+//       </SiteIDs>\
+//       </SourceCredentials>\
+//       <UserCredentials>\
+//       <Username>${user}</Username>\
+//       <Password>${userpass}</Password>\
+//       <SiteIDs>\
+//       <int>${site}</int>\
+//       </SiteIDs>\
+//       <LocationID>${location}</LocationID>\
+//       </UserCredentials>\
+//       <XMLDetail>Small</XMLDetail>\
+//       <PageSize>1500</PageSize>\
+//       <CurrentPageIndex>0</CurrentPageIndex>\
+//       <SearchText></SearchText>\
+//       </Request>\
+//       </GetClients>\
+//       </soapenv:Body />\
+//       </soapenv:Envelope />`;
+//       axios.post("https://api.mindbodyonline.com/0_5_1/ClientService.asmx", mindxmls, {
+//         headers: 
+//           {'Content-Type': 'text/xml'}
+//       })
+//       .then(response => {
+//         console.log(response)
+//         // let re = response.getElementsByTagName('client')[i].childNodes;
+//         // if(re.MobilePhone) {
+//         //   axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${e.bid}&api=${e.apikey}&firstname=${re['FirstName'].nodeValue}&lastname=${re[LastName].nodeValue}&email=${re[Email].nodeValue}&countrycode=+1&phone=${re[MobilePhone].nodeValue}`)
+//         // } else {
+//         //   axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${e.bid}&api=${e.apikey}&firstname=${re['FirstName'].nodeValue}&lastname=${re[LastName].nodeValue}&email=${re[Email].nodeValue}&countrycode=+1&phone=${re[HomePhone].nodeValue}`)
+//         // }
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
+//     })
+  
+// })
+// });
