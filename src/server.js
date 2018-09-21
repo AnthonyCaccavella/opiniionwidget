@@ -202,7 +202,7 @@ app.get('db').get_resman_data().then(response => {
   cronTime: '0 0 0/24 1/1 * 1-7',
   onTick: function() {
     app.get('db').get_resman_data().then(response => {
-      let newResData = response;
+      let newResData = response.data;
       newResData.map((e,i) => {
         var bidRes = e.bid;
         var apikeyRes = e.apikey;
