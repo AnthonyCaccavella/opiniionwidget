@@ -133,7 +133,7 @@ app.get('db').get_resman_data().then(response => {
           'Statuses': status
         }))
         .then((response) => {
-          var data = response.MoveOuts;
+          var data = response.data.MoveOuts;
           data.map((e,i) => {
             let isMinorRes = ('' +e.IsMinor);
             if(e.MobilePhone.length > 5) {
@@ -163,7 +163,7 @@ app.get('db').get_resman_data().then(response => {
         'AccountID': aidRes,
         'PropertyID': pidRes }))
       .then((response) => {
-        var data = response.Residents;
+        var data = response.data.Residents;
         data.map((e,i) => {
           let d1 = new Date();
           let d2 = new Date(e.MoveInDate)
@@ -214,7 +214,7 @@ app.get('db').get_resman_data().then(response => {
               'AccountID': aidRes,
               'PropertyID': pidRes }))
             .then((response) => {
-              var data = response.Residents;
+              var data = response.data.Residents;
               data.map((e,i) => {
                 let d1 = new Date();
                 let d2 = new Date(e.MoveInDate)
@@ -255,7 +255,7 @@ var resMaintJob = new CronJob({
   cronTime: '0 0 0/24 1/1 * 1-7',
   onTick: function() {
     app.get('db').get_resman_data().then(response => {
-      let newResData = response;
+      let newResData = response.data;
       newResData.map((e,i) => {
         var bidRes = e.bid;
         var apikeyRes = e.apikey;
