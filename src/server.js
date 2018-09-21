@@ -199,7 +199,7 @@ app.get('db').get_resman_data().then(response => {
   // Now, only God knows.
 
   var resJob = new CronJob({
-  cronTime: '0 0 0/24 1/1 * 1-7',
+  cronTime: '* /60 * 8-20 * * *',
   onTick: function() {
     app.get('db').get_resman_data().then(response => {
       let newResData = response.data;
@@ -216,6 +216,7 @@ app.get('db').get_resman_data().then(response => {
               'AccountID': aidRes,
               'PropertyID': pidRes }))
             .then((response) => {
+              console.log(response)
               var data = response.data.Residents;
               data.map((e,i) => {
                 let d1 = new Date();
