@@ -1,10 +1,10 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const massive = require('massive');
-const axios = require('axios')
-const CronJob = require('cron').CronJob;
-const qs = require('qs');
+var express = require("express");
+var bodyParser = require("body-parser");
+var cors = require("cors");
+var massive = require('massive');
+var axios = require('axios')
+var CronJob = require('cron').CronJob;
+var qs = require('qs');
 
 let app = express();
 app.use(bodyParser.json());
@@ -113,15 +113,15 @@ app.get('/pushRes', (req, res) => {
 app.get('db').get_resman_data().then(response => {
   let newResData = response;
   newResData.map((e,i) => {
-    const bidRes = e.bid;
-    const apikeyRes = e.apikey;
-    const ipidRes = e.ipid;
-    const apiRes = e.api;
-    const pidRes = e.pid;
-    const aidRes = e.datapoint1;
-    const status = "Former"
-    const d1 = new Date()
-    const d2 = new Date(d1.getTime() - 365*24*60*60*1000);
+    var bidRes = e.bid;
+    var apikeyRes = e.apikey;
+    var ipidRes = e.ipid;
+    var apiRes = e.api;
+    var pidRes = e.pid;
+    var aidRes = e.datapoint1;
+    var status = "Former"
+    var d1 = new Date()
+    var d2 = new Date(d1.getTime() - 365*24*60*60*1000);
     console.log(d2, d1);
     axios.post('https://api.myresman.com/Events/GetMoveOuts', qs.stringify({
           'IntegrationPartnerID': ipidRes,
@@ -133,10 +133,10 @@ app.get('db').get_resman_data().then(response => {
           'Statuses': status
         }))
         .then((response) => {
-          const data = response.data.MoveOuts;
+          var data = response.data.MoveOuts;
           data.map((e,i) => {
             let isMinorRes = ('' +e.IsMinor);
-            const mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+            var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
             if (isMinorRes && isMinorRes == "true") {
               console.log("Minor")
               null 
@@ -158,13 +158,13 @@ app.get('db').get_resman_data().then(response => {
         'AccountID': aidRes,
         'PropertyID': pidRes }))
       .then((response) => {
-        const data = response.data.Residents;
+        var data = response.data.Residents;
         data.map((e,i) => {
           let d1 = new Date();
           let d2 = new Date(e.MoveInDate)
           let d3 = new Date(e.LeaseEndDate)
           let isMinorRes = ('' +e.IsMinor);
-          const mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+          var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
           if (isMinorRes && isMinorRes == "true") {
             null 
           } else {
@@ -183,33 +183,34 @@ app.get('db').get_resman_data().then(response => {
 })
   
   //Chron Job Setup
+  // When I wrote these, only God and I understood what I was doing.
+  // Now, only God knows.
 
-
-  const resJob = new CronJob({
+  var resJob = new CronJob({
   cronTime: '0 0 0/24 1/1 * 1-7',
   onTick: function() {
     app.get('db').get_resman_data().then(response => {
       let newResData = response;
       newResData.map((e,i) => {
-        const bidRes = e.bid;
-        const apikeyRes = e.apikey;
-        const ipidRes = e.ipid;
-        const apiRes = e.api;
-        const pidRes = e.pid;
-        const aidRes = e.datapoint1;
+        var bidRes = e.bid;
+        var apikeyRes = e.apikey;
+        var ipidRes = e.ipid;
+        var apiRes = e.api;
+        var pidRes = e.pid;
+        var aidRes = e.datapoint1;
         axios.post('https://api.myresman.com/Leasing/GetCurrentResidents', qs.stringify({
               'IntegrationPartnerID': ipidRes,
               'ApiKey': apiRes,
               'AccountID': aidRes,
               'PropertyID': pidRes }))
             .then((response) => {
-              const data = response.data.Residents;
+              var data = response.data.Residents;
               data.map((e,i) => {
                 let d1 = new Date();
                 let d2 = new Date(e.MoveInDate)
                 let d3 = new Date(e.LeaseEndDate)
                 let isMinorRes = ('' +e.IsMinor);
-                const mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+                var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
                 // let mobilePhone = e.MobilePhone.replace(/\D/g,'');
                 function evaluateDate(date1, date2) {
                   return Math.ceil((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
@@ -247,20 +248,20 @@ app.get('db').get_resman_data().then(response => {
 resJob.start();
 
 
-const resMaintJob = new CronJob({
+var resMaintJob = new CronJob({
   cronTime: '0 0 0/24 1/1 * 1-7',
   onTick: function() {
     app.get('db').get_resman_data().then(response => {
       let newResData = response;
       newResData.map((e,i) => {
-        const bidRes = e.bid;
-        const apikeyRes = e.apikey;
-        const ipidRes = e.ipid;
-        const apiRes = e.api;
-        const pidRes = e.pid;
-        const aidRes = e.datapoint1;
-        const date1 = new Date();
-        const date2 = new Date();
+        var bidRes = e.bid;
+        var apikeyRes = e.apikey;
+        var ipidRes = e.ipid;
+        var apiRes = e.api;
+        var pidRes = e.pid;
+        var aidRes = e.datapoint1;
+        var date1 = new Date();
+        var date2 = new Date();
         date2.setDate(date2.getDate() - 1);
         axios.post('https://api.myresman.com/Events/GetCompletedWorkOrders', qs.stringify({
               'IntegrationPartnerID': ipidRes,
@@ -270,10 +271,10 @@ const resMaintJob = new CronJob({
               'StartDate': date2,
               'EndDate': date1 }))
             .then((response) => {
-              const data = response.data.WorkOrders;             
+              var data = response.data.WorkOrders;             
               data.map((e,i) => {
                 let isMinorRes = ('' +e.IsMinor);
-                const mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+                var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
                 if (isMinorRes && isMinorRes == "true") {
                   null 
                 } else {
@@ -289,6 +290,19 @@ const resMaintJob = new CronJob({
   timeZone: 'America/Los_Angeles'
 });
 resMaintJob.start();
+
+
+var vendJob = new CronJob({
+  crontTime: '0 0 0/24 1/1 * 1-7',
+  onTick: function() {
+    var config = {
+      headers: {'Authorization': 'bearer ' + Kh7UKpuhyOjF9hNWCadKi_y3XSeJ1wCiqR6l2IL3}
+    }
+    axios.get('https://missionarymall.vendhq.com/api/2.0/customers', config).then(response => {
+      console.log(response);
+    })
+  }
+})
 
  
 app.get('/testing', (req, res) => {
