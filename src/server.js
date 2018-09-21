@@ -210,7 +210,11 @@ app.get('db').get_resman_data().then(response => {
                 let d2 = new Date(e.MoveInDate)
                 let d3 = new Date(e.LeaseEndDate)
                 let isMinorRes = ('' +e.IsMinor);
-                var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+                if(e.MobilePhone) {
+                  var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+                } else {
+                  var mobile = '';
+                }
                 // let mobilePhone = e.MobilePhone.replace(/\D/g,'');
                 function evaluateDate(date1, date2) {
                   return Math.ceil((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
