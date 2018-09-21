@@ -228,14 +228,23 @@ app.get('db').get_resman_data().then(response => {
                 if (isMinorRes && isMinorRes == "true") {
                   console.log('Is a minor')          
                 } else if(0 < evaluateDate(d1,d2) && evaluateDate(d1,d2) <= 7){
-                  console.log(1);
-                    // axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=1`)
+                    axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=1`).then(response => {
+                      console.log(response);
+                    }, error => {
+                      console.log(error);
+                    })
                 } else if(0 >= 0 < evaluateDate(d1,d2) && evaluateDate(d1,d3) >= -7){             
-                  console.log(2);
-                    // axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=2`)
+                    axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=2`).then(response => {
+                      console.log(response);
+                    }, error => {
+                      console.log(error);
+                    })
                 } else {
-                  console.log(3);
-                    // axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}`)
+                    axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}`).then(response => {
+                      console.log(response);
+                    }, error => {
+                      console.log(error);
+                    })
                 }
               })
         }, error => {
