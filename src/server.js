@@ -137,7 +137,8 @@ app.get('db').get_resman_data().then(response => {
           data.map((e,i) => {
             let isMinorRes = ('' +e.IsMinor);
             if(e.MobilePhone.length > 5) {
-              var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+              console.log(e.MobilePhone);
+              var mobile = e.MobilePhone.replace(/\D/g,'');
             } else {
               var mobile = '';
             }
@@ -169,7 +170,8 @@ app.get('db').get_resman_data().then(response => {
           let d3 = new Date(e.LeaseEndDate)
           let isMinorRes = ('' +e.IsMinor);
           if(e.MobilePhone.length > 5) {
-            var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+            console.log(e.MobilePhone);
+            var mobile = e.MobilePhone.replace(/\D/g,'');
           } else {
             var mobile = '';
           }
@@ -219,7 +221,8 @@ app.get('db').get_resman_data().then(response => {
                 let d3 = new Date(e.LeaseEndDate)
                 let isMinorRes = ('' +e.IsMinor);
                 if(e.MobilePhone.length > 5) {
-                  var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+                  console.log(e.MobilePhone);
+                  var mobile = e.MobilePhone.replace(/\D/g,'');
                 } else {
                   var mobile = '';
                 }
@@ -275,7 +278,8 @@ var resMaintJob = new CronJob({
               data.map((e,i) => {
                 let isMinorRes = ('' +e.IsMinor);
                 if(e.MobilePhone.length > 5) {
-                  var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+                  console.log(e.MobilePhone);
+                  var mobile = e.MobilePhone.replace(/\D/g,'');
                 } else {
                   var mobile = '';
                 }
