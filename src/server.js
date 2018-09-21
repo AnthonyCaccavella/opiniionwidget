@@ -236,8 +236,9 @@ app.get('db').get_resman_data().then(response => {
                     axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}`)
                 }
               })
+        }, error => {
+          console.log(error);
         })
-        // .catch(error => console.log(error))
       })
     })
   },
