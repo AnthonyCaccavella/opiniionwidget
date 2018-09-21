@@ -194,7 +194,7 @@ app.get('db').get_resman_data().then(response => {
   // Now, only God knows.
 
   var resJob = new CronJob({
-  cronTime: '*/60 * 8-20 * * *',
+  cronTime: '0 0 0/24 1/1 * 1-7',
   onTick: function() {
     app.get('db').get_resman_data().then(response => {
       let newResData = response;
@@ -228,7 +228,7 @@ app.get('db').get_resman_data().then(response => {
                 if (isMinorRes && isMinorRes == "true") {
                   console.log('Is a minor')          
                 } else if(0 < evaluateDate(d1,d2) && evaluateDate(d1,d2) <= 7){                  
-                    axios.post(`https://api.opiniion.com/_services/opiniion/customer?`, {
+                    axios.post(`https://api.opiniion.com/_services/opiniion/customer`, {
                       uid:  bidRes,
                       api: apikeyRes,
                       firstname: e.FirstName,
@@ -238,12 +238,12 @@ app.get('db').get_resman_data().then(response => {
                       phone :  mobile
                     }
                      ,`&q=1`).then(response => {
-                      console.log('first', response);
+                      
                     }, error => {
                       console.log('first', error.code, error.config);
                     })
                 } else if(0 >= 0 < evaluateDate(d1,d2) && evaluateDate(d1,d3) >= -7){                  
-                  axios.post(`https://api.opiniion.com/_services/opiniion/customer?`,
+                  axios.post(`https://api.opiniion.com/_services/opiniion/customer`,
                   {
                     uid:  bidRes,
                     api: apikeyRes,
@@ -254,12 +254,12 @@ app.get('db').get_resman_data().then(response => {
                     phone :  mobile
                   }
                    ,`&q=2`).then(response => {
-                      console.log('second', response);
+
                     }, error => {
                       console.log('sendon', error.code, error.config);
                     })
                 } else {                  
-                  axios.post(`https://api.opiniion.com/_services/opiniion/customer?`,
+                  axios.post(`https://api.opiniion.com/_services/opiniion/customer`,
                   {
                     uid:  bidRes,
                     api: apikeyRes,
@@ -270,7 +270,6 @@ app.get('db').get_resman_data().then(response => {
                     phone :  mobile
                   }
                     ).then(response => {
-                      console.log('third', response);
                     }, error => {
                       console.log('third', error.code, error.config);
                     })
