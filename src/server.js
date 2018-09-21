@@ -136,10 +136,9 @@ app.get('db').get_resman_data().then(response => {
           var data = response.data.MoveOuts;
           data.map((e,i) => {
             let isMinorRes = ('' +e.IsMinor);
-            if(e.MobilePhone.length > 5) {
-              console.log(e.MobilePhone);
-              var mobile = e.MobilePhone
-              // .replace(/\D/g,'');
+            if(e.MobilePhone && e.MobilePhone.length > 5) {
+              var mobile = e.MobilePhone.replace(/\D/g,'');
+              console.log(mobile);
             } else {
               var mobile = '';
             }
@@ -171,8 +170,8 @@ app.get('db').get_resman_data().then(response => {
           let d3 = new Date(e.LeaseEndDate)
           let isMinorRes = ('' +e.IsMinor);
           if(e.MobilePhone && e.MobilePhone.length > 5) {
-            console.log(e.MobilePhone);
             var mobile = e.MobilePhone.replace(/\D/g,'');
+            console.log(mobile);
           } else {
             var mobile = '';
           }
@@ -223,8 +222,8 @@ app.get('db').get_resman_data().then(response => {
                 let d3 = new Date(e.LeaseEndDate)
                 let isMinorRes = ('' +e.IsMinor);
                 if(e.Mobiilephone && e.MobilePhone.length > 5) {
-                  console.log(e.MobilePhone);
                   var mobile = e.MobilePhone.replace(/\D/g,'');
+                  console.log(mobile);
                 } else {
                   var mobile = '';
                 }
