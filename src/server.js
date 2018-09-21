@@ -136,7 +136,11 @@ app.get('db').get_resman_data().then(response => {
           var data = response.data.MoveOuts;
           data.map((e,i) => {
             let isMinorRes = ('' +e.IsMinor);
-            var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+            if(e.MobilePhone.length > 5) {
+              var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+            } else {
+              var mobile = '';
+            }
             if (isMinorRes && isMinorRes == "true") {
               console.log("Minor")
               null 
@@ -164,7 +168,11 @@ app.get('db').get_resman_data().then(response => {
           let d2 = new Date(e.MoveInDate)
           let d3 = new Date(e.LeaseEndDate)
           let isMinorRes = ('' +e.IsMinor);
-          var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+          if(e.MobilePhone.length > 5) {
+            var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+          } else {
+            var mobile = '';
+          }
           if (isMinorRes && isMinorRes == "true") {
             null 
           } else {
@@ -210,7 +218,7 @@ app.get('db').get_resman_data().then(response => {
                 let d2 = new Date(e.MoveInDate)
                 let d3 = new Date(e.LeaseEndDate)
                 let isMinorRes = ('' +e.IsMinor);
-                if(e.MobilePhone) {
+                if(e.MobilePhone.length > 5) {
                   var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
                 } else {
                   var mobile = '';
@@ -266,7 +274,7 @@ var resMaintJob = new CronJob({
               var data = response.data.WorkOrders;             
               data.map((e,i) => {
                 let isMinorRes = ('' +e.IsMinor);
-                if(e.MobilePhone) {
+                if(e.MobilePhone.length > 5) {
                   var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
                 } else {
                   var mobile = '';
