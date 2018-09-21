@@ -133,7 +133,7 @@ app.get('db').get_resman_data().then(response => {
           'Statuses': status
         }))
         .then((response) => {
-          var data = response.data.MoveOuts;
+          var data = response.MoveOuts;
           data.map((e,i) => {
             let isMinorRes = ('' +e.IsMinor);
             if(e.MobilePhone.length > 5) {
@@ -163,7 +163,7 @@ app.get('db').get_resman_data().then(response => {
         'AccountID': aidRes,
         'PropertyID': pidRes }))
       .then((response) => {
-        var data = response.data.Residents;
+        var data = response.Residents;
         data.map((e,i) => {
           let d1 = new Date();
           let d2 = new Date(e.MoveInDate)
@@ -274,7 +274,7 @@ var resMaintJob = new CronJob({
               'StartDate': date2,
               'EndDate': date1 }))
             .then((response) => {
-              var data = response.data.WorkOrders;             
+              var data = response.WorkOrders;             
               data.map((e,i) => {
                 let isMinorRes = ('' +e.IsMinor);
                 if(e.MobilePhone.length > 5) {
