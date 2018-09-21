@@ -231,19 +231,19 @@ app.get('db').get_resman_data().then(response => {
                     axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=1`).then(response => {
                       console.log(response);
                     }, error => {
-                      console.log('first', error);
+                      console.log('first', error.code, error.config);
                     })
                 } else if(0 >= 0 < evaluateDate(d1,d2) && evaluateDate(d1,d3) >= -7){             
                     axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=2`).then(response => {
                       console.log(response);
                     }, error => {
-                      console.log('sendon', error);
+                      console.log('sendon', error.code, error.config);
                     })
                 } else {
                     axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}`).then(response => {
                       console.log(response);
                     }, error => {
-                      console.log('third', error);
+                      console.log('third', error.code, error.config);
                     })
                 }
               })
