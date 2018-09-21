@@ -212,8 +212,8 @@ app.get('db').get_resman_data().then(response => {
               'PropertyID': pidRes }))
             .then((response) => {
               var data = response.data.Residents;
-              console.log(data);
               data.map((e,i) => {
+                console.log(e);
                 let d1 = new Date();
                 let d2 = new Date(e.MoveInDate)
                 let d3 = new Date(e.LeaseEndDate)
@@ -227,7 +227,7 @@ app.get('db').get_resman_data().then(response => {
                   return Math.ceil((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
                 }
                 if (isMinorRes && isMinorRes == "true") {
-                  null 
+                  console.log('Is a minor')          
                 } else if(0 < evaluateDate(d1,d2) <= 7){
                     axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=1`)
                 } else if(0 >= evaluateDate(d1,d3) >= -7){             
@@ -237,7 +237,7 @@ app.get('db').get_resman_data().then(response => {
                 }
               })
         })
-        .catch(error => console.log(error))
+        // .catch(error => console.log(error))
       })
     })
   },
