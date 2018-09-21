@@ -218,21 +218,9 @@ app.get('db').get_resman_data().then(response => {
                 if (isMinorRes && isMinorRes == "true") {
                   null 
                 } else if(0 < evaluateDate(d1,d2) <= 7){
-                  axios.post(`https://app.opiniion.com/srv-api/customer/exist?uid=${bidRes}&api=${apikeyRes}&email=${e.email}&phone=${mobile}`).then( response => {
-                    if (response.exist == 'false') {
                     axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=1`)
-                    } else {
-                      null;
-                    }
-                  })
-                } else if(0 >= evaluateDate(d1,d3) >= -7){    
-                  axios.post(`https://app.opiniion.com/srv-api/customer/exist?uid=${bidRes}&api=${apikeyRes}&email=${e.email}&phone=${mobile}`).then( response => {
-                    if (response.exist == 'false') {            
+                } else if(0 >= evaluateDate(d1,d3) >= -7){             
                     axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}&q=2`)
-                    } else {
-                      null;                    
-                    }
-                  })
                 } else {
                     axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${bidRes}&api=${apikeyRes}&firstname=${e.FirstName}&lastname=${e.LastName}&email=${e.Email}&countrycode=+1&phone=${mobile}`)
                 }
