@@ -266,7 +266,11 @@ var resMaintJob = new CronJob({
               var data = response.data.WorkOrders;             
               data.map((e,i) => {
                 let isMinorRes = ('' +e.IsMinor);
-                var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+                if(e.MobilePhone) {
+                  var mobile = (''  + e.MobilePhone).replace(/\D/g,'');
+                } else {
+                  var mobile = '';
+                }
                 if (isMinorRes && isMinorRes == "true") {
                   null 
                 } else {
