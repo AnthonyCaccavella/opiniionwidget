@@ -122,7 +122,6 @@ app.get('db').get_resman_data().then(response => {
     var status = "Former"
     var d1 = new Date()
     var d2 = new Date(d1.getTime() - 365*24*60*60*1000);
-    console.log(d2, d1);
     axios.post('https://api.myresman.com/Events/GetMoveOuts', qs.stringify({
           'IntegrationPartnerID': ipidRes,
           'ApiKey': apiRes,
@@ -138,7 +137,6 @@ app.get('db').get_resman_data().then(response => {
             let isMinorRes = ('' +e.IsMinor);
             if(e.MobilePhone && e.MobilePhone.length > 5) {
               var mobile = e.MobilePhone.replace(/\D/g,'');
-              console.log(mobile);
             } else {
               var mobile = '';
             }
@@ -171,7 +169,6 @@ app.get('db').get_resman_data().then(response => {
           let isMinorRes = ('' +e.IsMinor);
           if(e.MobilePhone && e.MobilePhone.length > 5) {
             var mobile = e.MobilePhone.replace(/\D/g,'');
-            console.log(mobile);
           } else {
             var mobile = '';
           }
@@ -201,7 +198,6 @@ app.get('db').get_resman_data().then(response => {
   onTick: function() {
     app.get('db').get_resman_data().then(response => {
       let newResData = response;
-      console.log(response)
       newResData.map((e,i) => {
         var bidRes = e.bid;
         var apikeyRes = e.apikey;
@@ -221,13 +217,11 @@ app.get('db').get_resman_data().then(response => {
                 let d2 = new Date(e.MoveInDate)
                 let d3 = new Date(e.LeaseEndDate)
                 let isMinorRes = ('' +e.IsMinor);
-                if(e.Mobiilephone && e.MobilePhone.length > 5) {
+                if(e.MobilePhone && e.MobilePhone.length > 5) {
                   var mobile = e.MobilePhone.replace(/\D/g,'');
-                  console.log(mobile);
                 } else {
                   var mobile = '';
                 }
-                // let mobilePhone = e.MobilePhone.replace(/\D/g,'');
                 function evaluateDate(date1, date2) {
                   return Math.ceil((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
                 }
