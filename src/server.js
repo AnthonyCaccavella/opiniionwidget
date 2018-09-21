@@ -72,41 +72,41 @@ app.post('/postresdata', (req, res) => {
 })
 
 
-app.post("/api/integrations/smartwaiver", (req, res) => {
-  // res.send("test " + req.body)
-  let uniqueid = req.body.unique_id;
-  let credential = req.body.credential;
-  let event = req.body.event;
-  if (req.body.UID && req.body.APIKEY){
-    let UID = req.body.UID;
-    let APIKEY = req.body.APIKEY;
-  }
-  res.send("Created! " + uniqueid + " " + credential + " " + event).then(
-    axios.get("https://api.smartwaiver.com/v4/waivers/" + uniqueid + "?pdf=false&sw-api-key=056eecb3218c7bbdf23c0335b81c47bc")
-    .then(response => {
-      var re = response.body;
-      var time = re.waiver.createdOn;
-      var email = re.waiver.email;
-      var ip = re.waiver.clientIP;
-      for (var i = 0; i < re.waiver.participants.length; i++) {
-        if(!re.waiver.participants[i].isMinor) {
-          var firstname = re.waiver.participants[i].firstName;
-          var lastname = re.waiver.participants[i].lastName;
-          var phone = re.waiver.participants[i].phone;
-          var isMinor = re.waiver.participants[i].isMinor;
-        } else {
-          return "Is a minor - not adding"
-        }
-      }
-    }).catch( (error)=> {
-      console.log(error)
-    })
-    .then(axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${UID}&api=${APIKEY}&firstname=${firstname}&lastname=${lastname}&email=${email}&countrycode=+1&phone=${phone}`))
-    .catch( (error)=> {
-      console.log(error)
-    })      
-  );
-});
+// app.post("/api/integrations/smartwaiver", (req, res) => {
+//   // res.send("test " + req.body)
+//   let uniqueid = req.body.unique_id;
+//   let credential = req.body.credential;
+//   let event = req.body.event;
+//   if (req.body.UID && req.body.APIKEY){
+//     let UID = req.body.UID;
+//     let APIKEY = req.body.APIKEY;
+//   }
+//   res.send("Created! " + uniqueid + " " + credential + " " + event).then(
+//     axios.get("https://api.smartwaiver.com/v4/waivers/" + uniqueid + "?pdf=false&sw-api-key=056eecb3218c7bbdf23c0335b81c47bc")
+//     .then(response => {
+//       var re = response.body;
+//       var time = re.waiver.createdOn;
+//       var email = re.waiver.email;
+//       var ip = re.waiver.clientIP;
+//       for (var i = 0; i < re.waiver.participants.length; i++) {
+//         if(!re.waiver.participants[i].isMinor) {
+//           var firstname = re.waiver.participants[i].firstName;
+//           var lastname = re.waiver.participants[i].lastName;
+//           var phone = re.waiver.participants[i].phone;
+//           var isMinor = re.waiver.participants[i].isMinor;
+//         } else {
+//           return "Is a minor - not adding"
+//         }
+//       }
+//     }).catch( (error)=> {
+//       console.log(error)
+//     })
+//     .then(axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${UID}&api=${APIKEY}&firstname=${firstname}&lastname=${lastname}&email=${email}&countrycode=+1&phone=${phone}`))
+//     .catch( (error)=> {
+//       console.log(error)
+//     })      
+//   );
+// });
 
 
 app.get('/pushRes', (req, res) => {
@@ -304,34 +304,34 @@ var resMaintJob = new CronJob({
 resMaintJob.start();
 
 
-var vendJob = new CronJob({
-  crontTime: '0 0 0/24 1/1 * 1-7',
-  onTick: function() {
-    var config = {
-      headers: {'Authorization': 'bearer ' + Kh7UKpuhyOjF9hNWCadKi_y3XSeJ1wCiqR6l2IL3}
-    }
-    axios.get('https://missionarymall.vendhq.com/api/2.0/customers', config).then(response => {
-      console.log(response);
-    })
-  }
-})
+// var vendJob = new CronJob({
+//   crontTime: '0 0 0/24 1/1 * 1-7',
+//   onTick: function() {
+//     var config = {
+//       headers: {'Authorization': 'bearer ' + Kh7UKpuhyOjF9hNWCadKi_y3XSeJ1wCiqR6l2IL3}
+//     }
+//     axios.get('https://missionarymall.vendhq.com/api/2.0/customers', config).then(response => {
+//       console.log(response);
+//     })
+//   }
+// })
 
  
-app.get('/testing', (req, res) => {
-    axios.get('/getvoldata').then(res => {
-      res.data.map((e,i) => {
-        let volbid = e.bid;
-        let volapi = e.apikey;
-        axios.post(`http://${e.datapoint1}/net/WebService.aspx?Login=${e.datapoint2}&EncryptedPassword=${e.sourcepass}&API_Name=Generic\\Orders&WHERE_Value=New`).then(response => {
-          let voldata = response;
-          console.log(voldata);
-          // voldata.map((e,i) => {
-          //   axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${volbid}&api=${volapi}&firstname=${e.firstname}&lastname=${e.lastname}&email=${e.email}&countrycode=+1&phone=${e.phone}`)
-          // })
-        })
-      })
-    })
-})
+// app.get('/testing', (req, res) => {
+//     axios.get('/getvoldata').then(res => {
+//       res.data.map((e,i) => {
+//         let volbid = e.bid;
+//         let volapi = e.apikey;
+//         axios.post(`http://${e.datapoint1}/net/WebService.aspx?Login=${e.datapoint2}&EncryptedPassword=${e.sourcepass}&API_Name=Generic\\Orders&WHERE_Value=New`).then(response => {
+//           let voldata = response;
+//           console.log(voldata);
+//           // voldata.map((e,i) => {
+//           //   axios.post(`https://app.opiniion.com/_services/opiniion/customer?uid=${volbid}&api=${volapi}&firstname=${e.firstname}&lastname=${e.lastname}&email=${e.email}&countrycode=+1&phone=${e.phone}`)
+//           // })
+//         })
+//       })
+//     })
+// })
 
 // Internal server setup (localhost:XXXX)
 
