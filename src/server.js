@@ -138,7 +138,8 @@ app.get('db').get_resman_data().then(response => {
             let isMinorRes = ('' +e.IsMinor);
             if(e.MobilePhone.length > 5) {
               console.log(e.MobilePhone);
-              var mobile = e.MobilePhone.replace(/\D/g,'');
+              var mobile = e.MobilePhone
+              // .replace(/\D/g,'');
             } else {
               var mobile = '';
             }
@@ -171,7 +172,8 @@ app.get('db').get_resman_data().then(response => {
           let isMinorRes = ('' +e.IsMinor);
           if(e.MobilePhone.length > 5) {
             console.log(e.MobilePhone);
-            var mobile = e.MobilePhone.replace(/\D/g,'');
+            var mobile = e.MobilePhone
+            // .replace(/\D/g,'');
           } else {
             var mobile = '';
           }
@@ -222,7 +224,8 @@ app.get('db').get_resman_data().then(response => {
                 let isMinorRes = ('' +e.IsMinor);
                 if(e.MobilePhone.length > 5) {
                   console.log(e.MobilePhone);
-                  var mobile = e.MobilePhone.replace(/\D/g,'');
+                  var mobile = e.MobilePhone
+                  // .replace(/\D/g,'');
                 } else {
                   var mobile = '';
                 }
@@ -279,7 +282,8 @@ var resMaintJob = new CronJob({
                 let isMinorRes = ('' +e.IsMinor);
                 if(e.MobilePhone.length > 5) {
                   console.log(e.MobilePhone);
-                  var mobile = e.MobilePhone.replace(/\D/g,'');
+                  var mobile = e.MobilePhone
+                  // .replace(/\D/g,'');
                 } else {
                   var mobile = '';
                 }
