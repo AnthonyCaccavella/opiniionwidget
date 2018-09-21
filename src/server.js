@@ -199,7 +199,7 @@ app.get('db').get_resman_data().then(response => {
   // Now, only God knows.
 
   var resJob = new CronJob({
-  cronTime: '* /60 * 8-20 * * *',
+  cronTime: '*/60 * 8-20 * * *',
   onTick: function() {
     app.get('db').get_resman_data().then(response => {
       let newResData = response.data;
