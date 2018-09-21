@@ -212,6 +212,7 @@ app.get('db').get_resman_data().then(response => {
               'PropertyID': pidRes }))
             .then((response) => {
               var data = response.data.Residents;
+              console.log(data);
               data.map((e,i) => {
                 let d1 = new Date();
                 let d2 = new Date(e.MoveInDate)
