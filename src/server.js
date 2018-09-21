@@ -203,6 +203,7 @@ app.get('db').get_resman_data().then(response => {
   onTick: function() {
     app.get('db').get_resman_data().then(response => {
       let newResData = response;
+      console.log(response)
       newResData.map((e,i) => {
         var bidRes = e.bid;
         var apikeyRes = e.apikey;
@@ -216,7 +217,6 @@ app.get('db').get_resman_data().then(response => {
               'AccountID': aidRes,
               'PropertyID': pidRes }))
             .then((response) => {
-              console.log(response)
               var data = response.data.Residents;
               data.map((e,i) => {
                 let d1 = new Date();
